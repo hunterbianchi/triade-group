@@ -7,6 +7,8 @@ import { useState } from 'react'
 import imag from '../space2.jpg'
 import TopNotification from '../components/TopNotifications'
 import ServicePreview from '../components/ServicePreview'
+import NewContractForm from '../components/NewContractForm'
+import NewBusiness from '../components/NewContractForm/NewBusiness'
 
 
 export type HomeTypes = {
@@ -21,9 +23,41 @@ export default function Home() {
     const [ isChromium, setIsChromium ] = useState<boolean>(navigatorName==="Chromium")
     
     const [ personality, setPersonality ] = useState<string>('commercial')
-
+    
     const [ isTopOpen, setIsTopOpen ] = useState<boolean>(false)
+    const [ isDisabledTypeBtn, setIsDisabledTypeBtn ] = useState<boolean>(true)
     const [ contractList, setContractList ] = useState<Array<any>>([])
+    
+    const [ contractGroup, setContractGroup ] = useState<any>({name: "[Group]"})
+    const [ contractType, setContractType ] = useState<any>({name: "[Type]"})
+
+    const [ showGroupOptions, setShowGroupOptions ] = useState<boolean>(false)
+    const [ showTypeOptions, setShowTypeOptions ] = useState<boolean>(false)
+    const [ showNewContractForm, setShowNewContractForm ] = useState<boolean>(false)
+    
+    const [ allGroups, setAllGroups ] = useState<Array<any>>([
+        {
+            name: "Social",
+            type: [{
+                name: "Society"
+            }],
+        },
+        {
+            name: "Commercial",
+            type: [{
+                name: "Business",
+                components: <NewBusiness/>,
+                stepsLength: 1,
+            }],
+        },
+        {
+            name: "Financial",
+            type: [{
+                name: "Exchange"
+            }],
+        }
+    ])
+
     const [ notifictions, setNotifictions ] = useState<Array<any>>([{
         name: "jh"
     }])
@@ -63,6 +97,32 @@ export default function Home() {
         }
     }
 
+
+    function openContractForm (){
+        setShowNewContractForm(true)
+    }
+
+
+    function closeContractForm (){
+        setShowNewContractForm(false)
+    }
+
+
+    const newFormParam = {
+        setShowGroupOptions,
+        setContractGroup,
+        setContractType,
+        setIsDisabledTypeBtn,
+        setShowTypeOptions,
+        contractGroup,
+        allGroups,
+        contractType,
+        showGroupOptions,
+        showTypeOptions,
+        isDisabledTypeBtn,
+        closeContractForm,
+    }
+
     useEffect(()=>{
         getBrowser()
     },[])
@@ -97,7 +157,7 @@ export default function Home() {
                         </div>
 
                         <div>
-                            {`TRÍADE Metaverse`}
+                            {`TRÍADE Commercial`}
                         </div>
 
                         <div style={{color: '#fff', display: 'flex'}}>
@@ -129,7 +189,12 @@ export default function Home() {
                 <S.FooterWrapper isChromium={isChromium} >
                     {`Footer`}
                 </S.FooterWrapper>
-                </>
+
+                <S.AddContractBtn onClick={openContractForm} ><I.FaPlus/></S.AddContractBtn>
+
+                {showNewContractForm && <S.NewContractContainer>
+                    <NewContractForm {...newFormParam} />
+                </S.NewContractContainer>} </>
             }
 
 

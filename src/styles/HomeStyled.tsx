@@ -34,7 +34,7 @@ export const MainWrapper = styled.div`
 
 export const TopContainer = styled.div<HomeTypes>`
     width: 100vw;
-    height: ${({isTopOpen})=>isTopOpen?`20vh`:`40px`};
+    height: ${({ isTopOpen }) => isTopOpen ? `20vh` : `40px`};
     position: absolute;
     top: 0px;
     background: transparent;
@@ -43,9 +43,9 @@ export const TopContainer = styled.div<HomeTypes>`
 `
 export const CenterWrapper = styled.div<HomeTypes>`
     width: 100vw;
-    height: ${({isTopOpen})=>isTopOpen?`60vh`:`calc(80vh - 40px)`};
+    height: ${({ isTopOpen }) => isTopOpen ? `60vh` : `calc(80vh - 40px)`};
     position: absolute;
-    top: ${({isTopOpen})=>isTopOpen?`20vh`:`40px`};
+    top: ${({ isTopOpen }) => isTopOpen ? `20vh` : `40px`};
     background: transparent;
     border: none;
     overflow: hidden;
@@ -127,8 +127,45 @@ export const FooterWrapper = styled.div<HomeTypes>`
     align-items:center;
     justify-content: center;
     color: #fff;
-    background: ${({isChromium})=>isChromium?`#fff1`:`#000`};
+    background: ${({ isChromium }) => isChromium ? `#fff1` : `#000`};
     backdrop-filter: blur(6px);
     border-top: 1px solid #fff;
     border-radius: 20px 20px 0px 0px;
+`
+
+export const AddContractBtn = styled.div<HomeTypes>`
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    position: absolute;
+    bottom: calc(20vh - 12.5px);
+    right: 10px;
+    color: #aea;
+    background: #040;
+    border-radius: 50%;
+    border-top: 4px solid #080;
+    border-bottom: 4px solid #020;
+    cursor: pointer;
+
+    :hover{
+        color: #fff;
+        background: #080;
+        border-top: 4px solid #0e0;
+        border-bottom: 4px solid #0a0;
+    }
+`
+
+export const NewContractContainer = styled.div<HomeTypes>`
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: flex-start;
+    position: absolute;
+    top: 0;
+    background: #0009;
+    z-index: 2;
 `

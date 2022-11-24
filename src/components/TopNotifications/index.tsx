@@ -18,9 +18,23 @@ export default function TopNotification ({isTopOpen, toggleTop, notifictions, is
                     {notifictions && notifictions.map((notification: any)=>{
 
                         return (
-                            <S.NotificationContainer key={Math.random()}>
-                                <Notification isChromium={isChromium} notification={notification}/>
-                            </S.NotificationContainer>
+                            <>
+                                <S.NotificationContainer key={Math.random()}>
+                                    <Notification isChromium={isChromium} notification={notification}/>
+                                </S.NotificationContainer>
+                                <S.NotificationContainer key={Math.random()}>
+                                    <Notification isChromium={isChromium} notification={notification}/>
+                                </S.NotificationContainer>
+                                <S.NotificationContainer key={Math.random()}>
+                                    <Notification isChromium={isChromium} notification={notification}/>
+                                </S.NotificationContainer>
+                                <S.NotificationContainer key={Math.random()}>
+                                    <Notification isChromium={isChromium} notification={notification}/>
+                                </S.NotificationContainer>
+                                <S.NotificationContainer key={Math.random()}>
+                                    <Notification isChromium={isChromium} notification={notification}/>
+                                </S.NotificationContainer>
+                            </>
                         )
                     })}
                 </S.NotificationsWrapper>

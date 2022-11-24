@@ -4,7 +4,6 @@ import type { AppProps } from 'next/app'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import logo from '../../public/triade.png'
-import '../styles/nprogress.css'
 
 export type AppTypes = {
   logoOpacity?: Number,
