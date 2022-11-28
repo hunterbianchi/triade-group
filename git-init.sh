@@ -1,25 +1,34 @@
 #!/bin/bash
 
-v='"'
-f=''
 
-version=`cat ./package.json | grep "version" | awk '{printf "${2:1:((${#2} - 1))}"}'`
+package_version=`cat ./package.json | grep "version" | awk '{printf $2}'`
+version="${package_version:1:((${#package_version} - 3))}"
 
-read -p "${version:}" r
+read -p "New version [Current: ($version)]: " new_version
 
-message="Finally at GitHub"
+[ $new_version ] && {
 
-git init
+    sleep 2
+    echo -e "\n\tError while wrighting '$new_version' to package.json's version\n\n\tSOLUTION:\tChange manualy before start auto-git.sh\n"
+    exit 0
 
-git remote add origin git@github.com:hunterbianchi/triade-group.git
+} || {
+    message="Auto commited by Hunter Biachi\'s bash script"
 
-git add .
+    git init
 
-git commit -m "$version $message"
+    git remote add origin git@github.com:hunterbianchi/triade-group.git
 
-git push --set-upstream origin main
+    git add .
 
-git push
+    git commit -m 'Version: ($version), -$message'
+
+    git push --set-upstream origin main
+
+    git push
+}
+
+
 
 
 
