@@ -14,6 +14,11 @@ read -p "New version [Current: ($version)]: " new_version
 
 } || {
     message="Auto commited by Hunter Biachi\'s bash script"
+    git add .
+    git commit -m 'Version: ($version), -$message'
+    git push
+}
+init () {
 
     git init
 
@@ -27,7 +32,6 @@ read -p "New version [Current: ($version)]: " new_version
 
     git push
 }
-
 
 
 
