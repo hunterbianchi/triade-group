@@ -109,6 +109,7 @@ export default function Home() {
 
 
     const newFormParam = {
+        isChromium,
         setShowGroupOptions,
         setContractGroup,
         setContractType,

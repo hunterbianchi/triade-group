@@ -6,19 +6,19 @@ import NewBusiness from './NewBusiness'
 
 
 export default function NewContractForm({
-setShowGroupOptions,
-setContractGroup,
-setContractType,
-setIsDisabledTypeBtn,
-setShowTypeOptions,
-contractGroup,
-allGroups,
-contractType,
-showGroupOptions,
-showTypeOptions,
-isDisabledTypeBtn,
-closeContractForm}:any)
-{
+    isChromium,
+    setShowGroupOptions,
+    setContractGroup,
+    setContractType,
+    setIsDisabledTypeBtn,
+    setShowTypeOptions,
+    contractGroup,
+    allGroups,
+    contractType,
+    showGroupOptions,
+    showTypeOptions,
+    isDisabledTypeBtn,
+    closeContractForm}:any){
 
     const [ privateKey, setPrivateKey ] = useState<string>('')
     const [ fromAddress, setFromAddress ] = useState<string>('')
@@ -47,6 +47,16 @@ closeContractForm}:any)
     }
 
     function handleBusinessName (e:any){
+
+
+        /* const value = e.target.value.replace(/\./,"")
+        const cpf = "[0-9]{2}[\.][0-9]{3}[\.][0-9]{3}[\-][0-9]{2}"
+        const cnpj = "[0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[\.][0-9]{4}[\-][0-9]{2}"
+
+        
+        [0-9]{2}[\.][0-9]{3}[\.][0-9]{3}[\-][0-9]{2}
+        [0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[\-][0-9]{2} */
+       
         setbusinessName(e.target.value)
     }
     
@@ -76,6 +86,7 @@ closeContractForm}:any)
     }
 
     const newBusinessParam = {
+        isChromium,
         fingerprint,
         toAddress,
         handleToAddress,
