@@ -24,9 +24,14 @@ export const TriadeOptionsWrapper = styled.div`
     justify-content: space-evenly;
 `
 
-export const ContractForm = styled.form`
+export const ContractContainer = styled.form`
     width: 100%;
     height: calc(100vh - 60px);
+`
+
+export const ContractForm = styled.form`
+    width: 100%;
+    height: 100%;
 `
 
 export const ContractGroupBtn = styled.button`

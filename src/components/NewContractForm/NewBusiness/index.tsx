@@ -18,6 +18,8 @@ export default function NewBusiness ({
 
     const [step, setStep] = useState(0)
 
+    const [isPhysical, setIsPhysical] = useState(false)
+
     function nextStep(e:any){
         e.preventDefault()
         setStep(step+1)
@@ -47,29 +49,71 @@ export default function NewBusiness ({
                     {`NEW BUSINESS`}
                 </S.FloatTopWrapper>
                 <S.FloatMidWrapper>
-                    {`Business Name:`}
-                    <S.InputContainer>
-                        <S.InputElement value={businessName} type={"text"} onChange={handleBusinessName} />
-                    </S.InputContainer>
-                    {`CNPJ:`}
-                    <S.InputContainer>
-                        <S.InputElement value={businessName} type={"number"} onChange={handleBusinessName} />
-                    </S.InputContainer>
-                    {`Business Country:`}
-                    <S.InputContainer>
-                        <S.InputElement value={businessName} type={"text"} onChange={handleBusinessName} />
-                    </S.InputContainer>
                     <div>
-                        {``}
-                        <input checked={true} type={"checkbox"}/>
+                        {`Business Name:`}
                     </div>
+                    <div>
+                        {`( Empty to Anonimous business )`}
+                    </div>
+                    
+                    <S.InputContainer>
+                        <S.InputElement  placeholder={`Anonimous`} value={businessName} type={"text"} onChange={handleBusinessName} />
+                    </S.InputContainer>
                 </S.FloatMidWrapper>
-                {/* /^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/ */}
+
                 <S.FloatBottomWrapper>
                     <button onClick={getPosition}>
                         {`X`}
                     </button>
-                    <button onClick={previousStep}>
+                    <button onClick={previousStep} disabled={!(step>0)}>
+                        {`<`}
+                    </button>
+                    <button onClick={nextStep}>
+                        {`>`}
+                    </button>
+                </S.FloatBottomWrapper>
+            </S.FloatWrapper>}
+            {step === 1 && <S.FloatWrapper isChromium={isChromium}>
+                <S.FloatTopWrapper>
+                    {`${businessName?businessName:`Anonimous`} informations:`}
+                </S.FloatTopWrapper>
+                <S.FloatMidWrapper>
+                    <div>
+                        <label>
+                            {`Industry`}
+                            <input name={`Radio`} checked={isPhysical} type={"radio"} />
+                        </label>
+                        <br/>
+                        <label>
+                            {`Commerce`}
+                            <input name={`Radio`} checked={isPhysical} type={"radio"} />
+                        </label>
+                        <br/>
+                        <label>
+                            {`Eletronic Commerce`}
+                            <input name={`Radio`} checked={isPhysical} type={"radio"} />
+                        </label>
+                        <br/>
+                        <label>
+                            {`Radio`}
+                            <input name={`Radio`} checked={isPhysical} type={"radio"} />
+                        </label>
+                    </div>
+                    <label>
+                        {`Physical Business? `}
+                        <input checked={isPhysical} type={"checkbox"} onChange={()=>setIsPhysical(!isPhysical)} />
+                    </label>
+                    <label>
+                        {`? `}
+                        <input checked={isPhysical} type={"checkbox"} onChange={()=>setIsPhysical(!isPhysical)} />
+                    </label>
+                </S.FloatMidWrapper>
+
+                <S.FloatBottomWrapper>
+                    <button onClick={getPosition}>
+                        {`X`}
+                    </button>
+                    <button onClick={previousStep} disabled={!(step>0)}>
                         {`<`}
                     </button>
                     <button onClick={nextStep}>
@@ -78,7 +122,7 @@ export default function NewBusiness ({
                 </S.FloatBottomWrapper>
             </S.FloatWrapper>}
 
-            {step === 1 && <>
+            {step === 2 && <>
                 <S.InputContainer>
                     <S.InputElement value={privateKey} type={"password"} onChange={handlePrivateKey} />
                 </S.InputContainer>

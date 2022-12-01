@@ -37,26 +37,13 @@ export default function NewContractForm({
     function handleToAddress (e:any){
         setToAddress(e.target.value)
     }
-    
-    function handleFromAddress (e:any){
-        setFromAddress(e.target.value)
-    }
 
     function handleAmount (e:any){
         setAmount(e.target.value)
     }
 
+
     function handleBusinessName (e:any){
-
-
-        /* const value = e.target.value.replace(/\./,"")
-        const cpf = "[0-9]{2}[\.][0-9]{3}[\.][0-9]{3}[\-][0-9]{2}"
-        const cnpj = "[0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[\.][0-9]{4}[\-][0-9]{2}"
-
-        
-        [0-9]{2}[\.][0-9]{3}[\.][0-9]{3}[\-][0-9]{2}
-        [0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[\-][0-9]{2} */
-       
         setbusinessName(e.target.value)
     }
     
@@ -108,10 +95,16 @@ export default function NewContractForm({
                     {`TRÍADE ${contractType.name}`}
                 </S.ContractTypeBtn>
             </S.TriadeOptionsWrapper>
+
+            <S.ContractContainer>
+                {contractType.name !== "Business" && <S.ContractForm>
+                    {`You cannot create a new ${contractType.name}`}
+                </S.ContractForm>}
+                {contractType.name === "Business" && <S.ContractForm>
+                    <NewBusiness {...newBusinessParam}/>
+                </S.ContractForm>}
+            </S.ContractContainer>
             
-            {<S.ContractForm>
-                <NewBusiness {...newBusinessParam}/>
-            </S.ContractForm>}
 
             <S.TriadeOptionsWrapper>    
                 <S.ContractTypeBtn onClick={closeContractForm}>
