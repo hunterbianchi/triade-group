@@ -1,5 +1,5 @@
 import {SHA256} from 'crypto-js'
-import crypto from 'crypto'
+import * as M from 'react-icons/md'
 import * as S from './NewContractFormStyled'
 import { useState } from 'react'
 import NewBusiness from './NewBusiness'
@@ -83,37 +83,37 @@ export default function NewContractForm({
         handleBusinessName,
         signature,
         privateKey,
-        handlePrivateKey
+        handlePrivateKey,
+        closeContractForm
     }
     return (
         <S.Wrapper>
             <S.TriadeOptionsWrapper>    
-                <S.ContractTypeBtn onClick={openGroupsOptions}>
+                <S.ContractGroupBtn onClick={openGroupsOptions}>
                     {`TRÍADE ${contractGroup.name}`}
-                </S.ContractTypeBtn>
+                </S.ContractGroupBtn>
+
                 <S.ContractTypeBtn onClick={openTypesOptions} disabled={isDisabledTypeBtn}>
                     {`TRÍADE ${contractType.name}`}
                 </S.ContractTypeBtn>
+
+                <S.CloseFormBtn onClick={closeContractForm}>
+                    <M.MdClose/>
+                </S.CloseFormBtn>
+
             </S.TriadeOptionsWrapper>
 
             <S.ContractContainer>
+                
                 {contractType.name !== "Business" && <S.ContractForm>
                     {`You cannot create a new ${contractType.name}`}
                 </S.ContractForm>}
+
                 {contractType.name === "Business" && <S.ContractForm>
                     <NewBusiness {...newBusinessParam}/>
                 </S.ContractForm>}
-            </S.ContractContainer>
-            
 
-            <S.TriadeOptionsWrapper>    
-                <S.ContractTypeBtn onClick={closeContractForm}>
-                    {`X`}
-                </S.ContractTypeBtn>
-                <S.ContractTypeBtn disabled={true}>
-                    {`>`}
-                </S.ContractTypeBtn>
-            </S.TriadeOptionsWrapper>
+            </S.ContractContainer>
 
             {showGroupOptions && <S.FloatOptionsWrapper>
                 <S.FloatOptions>

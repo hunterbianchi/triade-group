@@ -26,7 +26,7 @@ export const TriadeOptionsWrapper = styled.div`
 
 export const ContractContainer = styled.form`
     width: 100%;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 30px);
 `
 
 export const ContractForm = styled.form`
@@ -37,17 +37,57 @@ export const ContractForm = styled.form`
 export const ContractGroupBtn = styled.button`
     width: 40vw;
     height: 30px;
-    background: #fff;
-    cursor: pointer;
+    background: #4a47;
+    color: #fff;
+    border: none;
     border-radius: 10px;
+    cursor: pointer;
+
+    :hover{
+        background: #4a49;
+        box-shadow: -10px 10px 30px 8px #000;
+    }
 `
 
 export const ContractTypeBtn = styled.button`
     width: 40vw;
     height: 30px;
-    background: #fff;
-    cursor: pointer;
+    background: #4a47;
+    color: #fff;
+    border: none;
     border-radius: 10px;
+    cursor: pointer;
+
+    :hover{
+        background: #4a49;
+        box-shadow: -10px 10px 30px 8px #000;
+    }
+`
+
+export const CloseFormBtn = styled.button`
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 25px;
+    color: #fff;
+    border: none;
+    border-top: 4px solid #f447;
+    border-bottom: 4px solid #8447;
+    background: #a447;
+    cursor: pointer;
+    /* box-shadow: X Y Smoth Ray color; */
+    transition: 0.2s ease-in-out;
+    
+    :hover{
+        border-top: 4px solid #f229;
+        border-bottom: 4px solid #f229;
+        background: #a22;
+
+        box-shadow: -10px 10px 30px 8px #000;
+        scale: 1.2;
+    }
 `
 
 export const FloatOptionsWrapper = styled.div`

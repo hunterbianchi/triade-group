@@ -1,7 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import * as F from 'react-icons/fa'
+import * as M from 'react-icons/md'
 import * as S from './NewBusinessStyled'
+import Questions from './Questions'
 
-export default function NewBusiness ({
+export default function NewBusiness({
     isChromium,
     fingerprint,
     toAddress,
@@ -12,136 +15,84 @@ export default function NewBusiness ({
     handleBusinessName,
     signature,
     privateKey,
-    handlePrivateKey }:any) {
-
+    handlePrivateKey,
+    closeContractForm }: any) {
 
 
     const [step, setStep] = useState(0)
 
-    const [isPhysical, setIsPhysical] = useState(false)
 
-    function nextStep(e:any){
-        e.preventDefault()
-        setStep(step+1)
+    const questionParam = {
+        step,
+        isChromium,
+        fingerprint,
+        toAddress,
+        handleToAddress,
+        amount,
+        handleAmount,
+        businessName,
+        handleBusinessName,
+        signature,
+        privateKey,
+        handlePrivateKey
     }
 
-    function previousStep(e:any){
+    function nextStep(e: any) {
         e.preventDefault()
-        setStep(step-1)
+        setStep(step + 1)
     }
+
+    function previousStep(e: any) {
+        e.preventDefault()
+        setStep(step - 1)
+    }
+    useEffect(() => {
+        document.addEventListener("keypress", (e) => {
+            if (e.key === 'Enter') {
+                setStep(step + 1)
+            }
+        })
+    }, [])
     
-    function getPosition(e:any){
+    function getPosition(e: any) {
 
         e.preventDefault()
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(getPosition);
-        }function getPosition(position:any) {
+        } function getPosition(position: any) {
             alert(position.coords.latitude);
             alert(position.coords.longitude);
         }
     }
 
+   
     return (
-        <S.Wrapper>
-            {step === 0 && <S.FloatWrapper isChromium={isChromium}>
+        <S.Wrapper id={'form'}>
+            <S.FloatWrapper isChromium={isChromium}>
                 <S.FloatTopWrapper>
-                    {`NEW BUSINESS`}
-                </S.FloatTopWrapper>
-                <S.FloatMidWrapper>
-                    <div>
-                        {`Business Name:`}
-                    </div>
-                    <div>
-                        {`( Empty to Anonimous business )`}
-                    </div>
                     
-                    <S.InputContainer>
-                        <S.InputElement  placeholder={`Anonimous`} value={businessName} type={"text"} onChange={handleBusinessName} />
-                    </S.InputContainer>
-                </S.FloatMidWrapper>
-
-                <S.FloatBottomWrapper>
-                    <button onClick={getPosition}>
-                        {`X`}
-                    </button>
-                    <button onClick={previousStep} disabled={!(step>0)}>
-                        {`<`}
-                    </button>
-                    <button onClick={nextStep}>
-                        {`>`}
-                    </button>
-                </S.FloatBottomWrapper>
-            </S.FloatWrapper>}
-            {step === 1 && <S.FloatWrapper isChromium={isChromium}>
-                <S.FloatTopWrapper>
-                    {`${businessName?businessName:`Anonimous`} informations:`}
+                    {`new Businnes();`}
+                    
                 </S.FloatTopWrapper>
+
                 <S.FloatMidWrapper>
-                    <div>
-                        <label>
-                            {`Industry`}
-                            <input name={`Radio`} checked={isPhysical} type={"radio"} />
-                        </label>
-                        <br/>
-                        <label>
-                            {`Commerce`}
-                            <input name={`Radio`} checked={isPhysical} type={"radio"} />
-                        </label>
-                        <br/>
-                        <label>
-                            {`Eletronic Commerce`}
-                            <input name={`Radio`} checked={isPhysical} type={"radio"} />
-                        </label>
-                        <br/>
-                        <label>
-                            {`Radio`}
-                            <input name={`Radio`} checked={isPhysical} type={"radio"} />
-                        </label>
-                    </div>
-                    <label>
-                        {`Physical Business? `}
-                        <input checked={isPhysical} type={"checkbox"} onChange={()=>setIsPhysical(!isPhysical)} />
-                    </label>
-                    <label>
-                        {`? `}
-                        <input checked={isPhysical} type={"checkbox"} onChange={()=>setIsPhysical(!isPhysical)} />
-                    </label>
+                    <Questions {...questionParam}/>
                 </S.FloatMidWrapper>
 
                 <S.FloatBottomWrapper>
-                    <button onClick={getPosition}>
-                        {`X`}
-                    </button>
-                    <button onClick={previousStep} disabled={!(step>0)}>
-                        {`<`}
-                    </button>
-                    <button onClick={nextStep}>
-                        {`>`}
-                    </button>
-                </S.FloatBottomWrapper>
-            </S.FloatWrapper>}
+                    <S.NavFormBtn onClick={previousStep} disabled={step <= 0}>
+                        <M.MdChevronLeft/>
+                    </S.NavFormBtn>
 
-            {step === 2 && <>
-                <S.InputContainer>
-                    <S.InputElement value={privateKey} type={"password"} onChange={handlePrivateKey} />
-                </S.InputContainer>
-                <S.InputContainer>
-                    {`Fingerprint: ${fingerprint}`}
-                </S.InputContainer>
-                <S.InputContainer>
-                    <S.InputElement value={toAddress} type={"text"} onChange={handleToAddress} />
-                </S.InputContainer>
-                <S.InputContainer>
-                    <S.InputElement value={amount} type={"text"} onChange={handleAmount} />
-                </S.InputContainer>
-                <S.InputContainer>
-                    <S.InputElement value={businessName} type={"text"} onChange={handleBusinessName} />
-                </S.InputContainer>
-                <S.InputContainer>
-                    {signature}
-                </S.InputContainer>
-            </>}
+                    <S.NavFormBtn onClick={nextStep} disabled={step > 3}>
+                        {step < 3?
+                        <M.MdChevronRight/>
+                        :
+                        <M.MdCheck/>}
+                    </S.NavFormBtn>
+                </S.FloatBottomWrapper>
+            </S.FloatWrapper>
         </S.Wrapper>
     )
 }
