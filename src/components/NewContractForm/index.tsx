@@ -179,7 +179,7 @@ export default function NewContractForm({
                 <S.FloatOptions>
                     {allGroups.map((group:any)=>{
                         return(
-                            <S.OptionBtn onClick={e=>chooseGroupName(e, group)}>
+                            <S.OptionBtn key={Math.random()} onClick={e=>chooseGroupName(e, group)}>
                                 {group.name}
                             </S.OptionBtn>
                         )
@@ -191,7 +191,7 @@ export default function NewContractForm({
                 <S.FloatOptions>
                     {contractGroup.type.map((type:any)=>{
                         return(
-                            <S.OptionBtn onClick={e=>chooseTypeName(e, type)}>
+                            <S.OptionBtn key={Math.random()} onClick={e=>chooseTypeName(e, type)}>
                                 {type.name}
                             </S.OptionBtn>
                         )
