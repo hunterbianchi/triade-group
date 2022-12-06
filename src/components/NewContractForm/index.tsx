@@ -4,6 +4,10 @@ import * as S from './NewContractFormStyled'
 import { useState } from 'react'
 import NewBusiness from './NewBusiness'
 
+export type ContractTypes = {
+    businessService: string;
+}
+
 
 export default function NewContractForm({
     isChromium,
@@ -24,9 +28,21 @@ export default function NewContractForm({
     const [ fromAddress, setFromAddress ] = useState<string>('')
     const [ toAddress, setToAddress ] = useState<string>('')
     const [ amount, setAmount ] = useState<number>(0)
-    const [ businessName, setbusinessName ] = useState<string>('')
+    
+    const [ businessName, setBusinessName ] = useState<string>('')
+    const [ businessService, setBusinessService ] = useState<string>('')
+    const [ businessCountry, setBusinessCountry ] = useState<string>('')
+    const [ businessState, setBusinessState ] = useState<string>('')
+    const [ businessCity, setBusinessCity ] = useState<string>('')
+    const [ businessNeighbourhood, setBusinessNeighbourhood ] = useState<string>('')
+    const [ businessStreet, setBusinessStreet ] = useState<string>('')
+    const [ businessNumber, setBusinessNumber ] = useState<number>(0)
+    const [ businessZipCode, setBusinessZipCode ] = useState<number>(0)
+
     const [ signature, setSignature ] = useState<string>('')
     const [ fingerprint, setFingerprint ] = useState<string>('')
+
+    const [ business, setBusiness ] = useState<any>({})
     
 
     function handlePrivateKey (e:any){
@@ -44,7 +60,35 @@ export default function NewContractForm({
 
 
     function handleBusinessName (e:any){
-        setbusinessName(e.target.value)
+        setBusinessName(e.target.value)
+    }
+    
+    function handleBusinessCountry (e:any){
+        setBusinessCountry(e.target.value)
+    }
+    
+    function handleBusinessState (e:any){
+        setBusinessState(e.target.value)
+    }
+    
+    function handleBusinessCity (e:any){
+        setBusinessCity(e.target.value)
+    }
+    
+    function handleBusinessNeighbourhood (e:any){
+        setBusinessNeighbourhood(e.target.value)
+    }
+    
+    function handleBusinessStreet (e:any){
+        setBusinessStreet(e.target.value)
+    }
+    
+    function handleBusinessNumber (e:any){
+        setBusinessNumber(e.target.value)
+    }
+    
+    function handleBusinessZipCode (e:any){
+        setBusinessZipCode(e.target.value)
     }
     
 
@@ -73,17 +117,33 @@ export default function NewContractForm({
     }
 
     const newBusinessParam = {
+        businessName,
+        businessService,
+        businessCountry,
+        businessState,
+        businessCity,
+        businessNeighbourhood,
+        businessStreet,
+        businessNumber,
+        businessZipCode,
         isChromium,
         fingerprint,
         toAddress,
-        handleToAddress,
         amount,
-        handleAmount,
-        businessName,
-        handleBusinessName,
         signature,
         privateKey,
+        handleBusinessName,
+        setBusinessService,
+        handleBusinessCountry,
+        handleBusinessState,
+        handleBusinessCity,
+        handleBusinessNeighbourhood,
+        handleBusinessStreet,
+        handleBusinessNumber,
+        handleBusinessZipCode,
         handlePrivateKey,
+        handleToAddress,
+        handleAmount,
         closeContractForm
     }
     return (
@@ -104,7 +164,7 @@ export default function NewContractForm({
             </S.TriadeOptionsWrapper>
 
             <S.ContractContainer>
-                
+
                 {contractType.name !== "Business" && <S.ContractForm>
                     {`You cannot create a new ${contractType.name}`}
                 </S.ContractForm>}

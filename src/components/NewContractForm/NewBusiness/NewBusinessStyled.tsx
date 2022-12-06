@@ -36,9 +36,12 @@ export const FloatTopWrapper = styled.div`
     justify-content: space-between;
 
     font-family: sans-serif;
-    font-size: 30px;
+    font-size: 20px;
+    word-break: keep-all;
     color: #465;
+
     background: linear-gradient(#000 5%, #fff2 10%, #6452 20%, #6452 90%, #6452 100%);
+    overflow: hidden;
     border-bottom: 1px solid #222;
 `
 

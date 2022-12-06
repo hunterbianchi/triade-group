@@ -5,24 +5,59 @@ import * as S from './NewBusinessStyled'
 import Questions from './Questions'
 
 export default function NewBusiness({
+    businessName,
+    businessService,
+    businessCountry,
+    businessState,
+    businessCity,
+    businessNeighbourhood,
+    businessStreet,
+    businessNumber,
+    businessZipCode,
+    handleBusinessName,
+    setBusinessService,
+    handleBusinessCountry,
+    handleBusinessState,
+    handleBusinessCity,
+    handleBusinessNeighbourhood,
+    handleBusinessStreet,
+    handleBusinessNumber,
+    handleBusinessZipCode,
     isChromium,
     fingerprint,
     toAddress,
     handleToAddress,
     amount,
     handleAmount,
-    businessName,
-    handleBusinessName,
     signature,
     privateKey,
     handlePrivateKey,
-    closeContractForm }: any) {
+    closeContractForm
+    }: any) {
 
 
     const [step, setStep] = useState(0)
 
 
     const questionParam = {
+        businessName,
+        businessService,
+        businessCountry,
+        businessState,
+        businessCity,
+        businessNeighbourhood,
+        businessStreet,
+        businessNumber,
+        businessZipCode,
+        handleBusinessName,
+        setBusinessService,
+        handleBusinessCountry,
+        handleBusinessState,
+        handleBusinessCity,
+        handleBusinessNeighbourhood,
+        handleBusinessStreet,
+        handleBusinessNumber,
+        handleBusinessZipCode,
         step,
         isChromium,
         fingerprint,
@@ -30,8 +65,6 @@ export default function NewBusiness({
         handleToAddress,
         amount,
         handleAmount,
-        businessName,
-        handleBusinessName,
         signature,
         privateKey,
         handlePrivateKey
@@ -72,7 +105,7 @@ export default function NewBusiness({
             <S.FloatWrapper isChromium={isChromium}>
                 <S.FloatTopWrapper>
                     
-                    {`new Businnes();`}
+                    {`$new_Businnes(${businessName?businessName.replaceAll(" ", "_"):`Anonimous`});`}
                     
                 </S.FloatTopWrapper>
 
@@ -85,7 +118,7 @@ export default function NewBusiness({
                         <M.MdChevronLeft/>
                     </S.NavFormBtn>
 
-                    <S.NavFormBtn onClick={nextStep} disabled={step > 3}>
+                    <S.NavFormBtn onClick={step < 3?nextStep:alert} disabled={step > 3?true:step === 1 && !businessService?true:false}>
                         {step < 3?
                         <M.MdChevronRight/>
                         :
