@@ -100,7 +100,7 @@ export default function Questions  ({
                     </S.LabelWrapper>
                     <S.InputElement disabled={!isPhysical} placeholder={`San Ġiljan`} value={businessState} type={"text"} onChange={handleBusinessState} />
                 </S.InputContainer>
-                
+
                 <S.InputContainer>
                     <S.LabelWrapper isPhysical={isPhysical}>
                         {`City`}
@@ -133,7 +133,7 @@ export default function Questions  ({
                     <S.LabelWrapper isPhysical={isPhysical}>
                         {`ZIP code`}
                     </S.LabelWrapper>
-                    <S.InputElement disabled={!isPhysical} placeholder={`STJ 3243`} value={businessZipCode} type={"number"} onChange={handleBusinessZipCode} />
+                    <S.InputElement disabled={!isPhysical} placeholder={`STJ 3243`} value={businessZipCode} type={"text"} onChange={handleBusinessZipCode} />
                 </S.InputContainer>
             </S.QuestionWrapper>}
 
