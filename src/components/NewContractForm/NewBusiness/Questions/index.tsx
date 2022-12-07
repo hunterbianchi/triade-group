@@ -100,7 +100,7 @@ export default function Questions  ({
                     </S.LabelWrapper>
                     <S.InputElement disabled={!isPhysical} placeholder={`San Ġiljan`} value={businessState} type={"text"} onChange={handleBusinessState} />
                 </S.InputContainer>
-                Triq Ross, San Ġiljan, Malta
+                
                 <S.InputContainer>
                     <S.LabelWrapper isPhysical={isPhysical}>
                         {`City`}
