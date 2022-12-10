@@ -36,8 +36,8 @@ export default function NewContractForm({
     const [ businessCity, setBusinessCity ] = useState<string>('')
     const [ businessNeighbourhood, setBusinessNeighbourhood ] = useState<string>('')
     const [ businessStreet, setBusinessStreet ] = useState<string>('')
-    const [ businessNumber, setBusinessNumber ] = useState<number>(0)
-    const [ businessZipCode, setBusinessZipCode ] = useState<number>(0)
+    const [ businessZipCode, setBusinessZipCode ] = useState<string>("")
+    const [ businessNumber, setBusinessNumber ] = useState<string>("")
 
     const [ signature, setSignature ] = useState<string>('')
     const [ fingerprint, setFingerprint ] = useState<string>('')
@@ -124,8 +124,8 @@ export default function NewContractForm({
         businessCity,
         businessNeighbourhood,
         businessStreet,
-        businessNumber,
         businessZipCode,
+        businessNumber,
         isChromium,
         fingerprint,
         toAddress,
@@ -139,8 +139,8 @@ export default function NewContractForm({
         handleBusinessCity,
         handleBusinessNeighbourhood,
         handleBusinessStreet,
-        handleBusinessNumber,
         handleBusinessZipCode,
+        handleBusinessNumber,
         handlePrivateKey,
         handleToAddress,
         handleAmount,
