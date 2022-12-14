@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import * as F from 'react-icons/fa'
 import * as M from 'react-icons/md'
+import { createKeyPair, getPublicKey } from '../../../utils/manageKeys'
 import * as S from './NewBusinessStyled'
 import Questions from './Questions'
 
@@ -124,26 +125,38 @@ export default function NewBusiness
     }
 
     function createBusines(e: any){
+        
         e.preventDefault()
 
-        const newBusinessName = businessName?businessName:`Anonymous`
-        const newBusinessService = businessService
-        const newBusinessAddress = {
-            country: businessCountry,
-            state: businessState,
-            city: businessCity,
-            neighbourhood: businessNeighbourhood,
-            street: businessStreet,
-            zipCode: businessZipCode,
-            number: businessNumber
-        }
-        const privatekey = privateKey
+        const businessPair = createKeyPair()
         
-        const data = Buffer.from('str', 'base64').toString()
+            const busines: any = {
+                name: businessName?businessName:`Anonymous`,
+                businessWallet: businessPair.publicKey,
+                businessAddress: {
+                    country: businessCountry,
+                    state: businessState,
+                    city: businessCity,
+                    neighbourhood: businessNeighbourhood,
+                    street: businessStreet,
+                    zipCode: businessZipCode,
+                    number: businessNumber
+                },
+                owner: getPublicKey(privateKey),
+            }
 
-        const opCode = `${data}${data}${data}${data}${data}${data}${data}${data}`
 
-        alert(opCode)
+        // getPublicKey("69906cbe1bb7e266bf4bbadf534e1fb5199381790ef5b1cfdb8fabc38239c56c")
+        // alert(getPublicKey(privateKey))
+        alert(`Wright down your Private Key:\n${businessPair.privateKey}`)
+
+        const protocol = '01'
+        const owner = '01'
+        const enc = Buffer.from(JSON.stringify(busines)).toString('base64')
+        
+        const dec = Buffer.from(enc, 'base64').toString('ascii')
+
+        const opCode = `${dec.length}`
     }
 
     useEffect(() => {

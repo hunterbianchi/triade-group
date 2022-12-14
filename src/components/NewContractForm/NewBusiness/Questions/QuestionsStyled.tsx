@@ -114,18 +114,24 @@ export const InputElement = styled.input`
     height: 100%;
     padding: 1em;
     font-size: 0.9em;
-    color: #fff;
+    color: #4a4;
     background: #1a0d19;
     border: none;
     border-radius: 8px;
     border: 1px solid #444;
+    outline: none;
 
     ::placeholder {
-        color: #f00;
+        color: #fff4;
         opacity: 1;
     };
 
-    :disabled{
+    :focus {
+        background: #000;
+        color: #fff;
+    };
+
+    :disabled {
         color: #fff;
         opacity: 0.3;
         border: none;
