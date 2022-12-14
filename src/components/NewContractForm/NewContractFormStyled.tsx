@@ -108,19 +108,27 @@ export const FloatOptions = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: #fff;
+    background: #312;
+    border-radius: 4px;
+    border: 1px solid #645;
+    box-shadow: 6px 12px 12px 8px #001;
 `
 
 export const OptionBtn = styled.button`
     width: 100%;
+    height: 2rem;
     display: flex;
+    align-items: center;
     justify-content: center;
+    color: #4a4;
     background: transparent;
     border: none;
-    border-top: 1px solid #000;
+    border: 1px solid #3333;
     cursor: pointer;
-
+    
     :hover{
-        background: #eef;
+        background: #0007;
+        color: #8f8;
+        border: 1px solid #4a4;
     }
 `

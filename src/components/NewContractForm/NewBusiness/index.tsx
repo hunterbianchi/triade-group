@@ -4,7 +4,8 @@ import * as M from 'react-icons/md'
 import * as S from './NewBusinessStyled'
 import Questions from './Questions'
 
-export default function NewBusiness({
+export default function NewBusiness
+({
     businessName,
     businessService,
     businessCountry,
@@ -88,8 +89,16 @@ export default function NewBusiness({
 
         }else if(step + 1 === 2){
             setStep(step+1)
-        }else if(step + 1 === 3){
-            setStep(step+1)
+        }else if(step + 1 === 3 || step + 1 === 3.5){
+          
+            if(businessService==='delivery'){
+                
+                setStep(step+0.5)
+
+            }else{
+
+                setStep(step+1)
+            }
         }
     }
 
@@ -98,8 +107,13 @@ export default function NewBusiness({
 
         if(step-1 <= 0){
             setNoPrev(true)
+            setStep(step - 1)
         }
-        setStep(step - 1)
+        if(step%1===0.5){
+            setStep(step - 0.5)
+        }else{
+            setStep(step - 1)
+        }
     }
 
     function chooseService(e: any, service: string){
@@ -124,6 +138,12 @@ export default function NewBusiness({
             number: businessNumber
         }
         const privatekey = privateKey
+        
+        const data = Buffer.from('str', 'base64').toString()
+
+        const opCode = `${data}${data}${data}${data}${data}${data}${data}${data}`
+
+        alert(opCode)
     }
 
     useEffect(() => {

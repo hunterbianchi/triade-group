@@ -88,7 +88,16 @@ export const InputContainer = styled.label`
     align-items: center;
     justify-content: space-evenly;
 `
-export const DeliveryWrapper = styled.div``
+export const DeliveryAreaWrapper = styled.div`
+    width: 60%;
+    height: 60%;
+    background: transparent;
+    overflow: hidden;
+    border-radius: 6px;
+    
+`
+
+
 
 export const LabelWrapper = styled.div<QuestionTypes>`
     height: 1em;

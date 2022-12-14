@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import * as S from './QuestionsStyled'
 
 import Delivery from '../../../../images/Delivery.svg'
@@ -9,7 +9,10 @@ export type QuestionTypes = {
     isPhysical: boolean;
 }
 
-export default function Questions  ({
+
+
+export default function Questions
+({
     businessName,
     businessService,
     businessCountry,
@@ -143,62 +146,71 @@ export default function Questions  ({
             </S.QuestionWrapper>}
 
             {step === 2 && businessService === 'delivery' && <S.QuestionWrapper>
+                
                 <S.InputContainer>
-                    {`Action area (Meters)`}
-                    <S.InputElement type={"number"} onChange={handleActionArea} value={actionArea} />
-                </S.InputContainer>
-
-                <S.InputContainer>
-                    <S.LabelWrapper isPhysical={isPhysical}>
+                    <S.LabelWrapper isPhysical={true}>
                         {`Country`}
                     </S.LabelWrapper>
                     <S.InputElement placeholder={`Malta`} value={businessCountry} type={"text"} onChange={handleBusinessCountry} />
                 </S.InputContainer>
                 
                 <S.InputContainer>
-                    <S.LabelWrapper isPhysical={isPhysical}>
+                    <S.LabelWrapper isPhysical={true}>
                         {`State`}
                     </S.LabelWrapper>
                     <S.InputElement placeholder={`San Ġiljan`} value={businessState} type={"text"} onChange={handleBusinessState} />
                 </S.InputContainer>
 
                 <S.InputContainer>
-                    <S.LabelWrapper isPhysical={isPhysical}>
+                    <S.LabelWrapper isPhysical={true}>
                         {`City`}
                     </S.LabelWrapper>
                     <S.InputElement placeholder={`San Ġiljan`} value={businessCity} type={"text"} onChange={handleBusinessCity} />
                 </S.InputContainer>
                 
                 <S.InputContainer>
-                    <S.LabelWrapper isPhysical={isPhysical}>
+                    <S.LabelWrapper isPhysical={true}>
                         {`Neighbourhood`}
                     </S.LabelWrapper>
                     <S.InputElement placeholder={`San Ġiljan`} value={businessNeighbourhood} type={"text"} onChange={handleBusinessNeighbourhood} />
                 </S.InputContainer>
                 
                 <S.InputContainer>
-                    <S.LabelWrapper isPhysical={isPhysical}>
+                    <S.LabelWrapper isPhysical={true}>
                         {`Street`}
                     </S.LabelWrapper>
                     <S.InputElement placeholder={`Triq Ross`} value={businessStreet} type={"text"} onChange={handleBusinessStreet} />
                 </S.InputContainer>
 
                 <S.InputContainer>
-                    <S.LabelWrapper isPhysical={isPhysical}>
+                    <S.LabelWrapper isPhysical={true}>
                         {`ZIP code`}
                     </S.LabelWrapper>
                     <S.InputElement placeholder={`STJ 3243`} value={businessZipCode} type={"text"} onChange={handleBusinessZipCode} />
                 </S.InputContainer>
 
                 <S.InputContainer>
-                    <S.LabelWrapper isPhysical={isPhysical}>
+                    <S.LabelWrapper isPhysical={true}>
                         {`Number`}
                     </S.LabelWrapper>
                     <S.InputElement placeholder={`0`} value={businessNumber} type={"text"} onChange={handleBusinessNumber} />
                 </S.InputContainer>
+                
+            </S.QuestionWrapper>}
+
+            {step === 2.5 && businessService === 'delivery' && <S.QuestionWrapper>
+                <S.InputContainer>
+                    {`Action area (Meters)`}
+                    <S.InputElement type={"number"} onChange={handleActionArea} value={actionArea} />
+                </S.InputContainer>
+
+                <S.DeliveryAreaWrapper>
+                </S.DeliveryAreaWrapper>
+
             </S.QuestionWrapper>}
 
             {step === 3 && <S.QuestionWrapper>
+
                 <S.PriceWrapper>
                     {`TAD: ${0.007}`}
                 </S.PriceWrapper>
@@ -206,6 +218,7 @@ export default function Questions  ({
                 <S.InputContainer>
                     <S.InputElement placeholder={`Private Key (secp256k1)`} value={privateKey} type={"text"} onChange={handlePrivateKey} />
                 </S.InputContainer>
+                
             </S.QuestionWrapper>}
 
         </S.Wrapper>
