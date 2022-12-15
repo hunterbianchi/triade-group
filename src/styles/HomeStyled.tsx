@@ -158,14 +158,89 @@ export const AddContractBtn = styled.div<HomeTypes>`
 `
 
 export const NewContractContainer = styled.div<HomeTypes>`
-    width: 100vw;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items:center;
-    justify-content: flex-start;
-    position: absolute;
-    top: 0;
-    background: #0009;
-    z-index: 2;
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: flex-start;
+  position: absolute;
+  top: 0;
+  background: #0009;
+  z-index: 2;
+`
+
+export const LoadingWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0008;
+  overflow: hidden;
+  z-index: 2;
+  cursor: wait;
+`
+
+export const IconWrapper = styled.div`
+  width: 300px;
+  height: 300px;
+  border-radius: 60px;
+  overflow: hidden;
+  transition: 1s ease;
+
+  animation-duration: 10s;
+  animation-name: blink;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+
+  @keyframes blink {
+    0% {
+      opacity: 0.2;
+    }
+
+    10% {
+      opacity: 1;
+    }
+
+    20% {
+      opacity: 0.2;
+    }
+
+    30% {
+      opacity: 1;
+    }
+
+    40% {
+      opacity: 0.2;
+    }
+
+    50% {
+      opacity: 1;
+    }
+
+    60% {
+      opacity: 0.2;
+    }
+
+    70% {
+      opacity: 1;
+    }
+
+    80% {
+      opacity: 0.2;
+    }
+
+    90% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0.2;
+    }
+  }
+
 `

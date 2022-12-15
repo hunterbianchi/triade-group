@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { QuestionTypes } from ".";
 import { ContractTypes } from "../..";
-import { HomeTypes } from "../../../../pages";
 
 export const Wrapper = styled.div`
     width: 100%;
@@ -12,6 +11,7 @@ export const Wrapper = styled.div`
 export const QuestionWrapper = styled.div`
     width: 100%;
     height: 100%;
+    padding: 18px 0px;
     gap: 12px;
     display: flex;
     flex-direction: column;
@@ -21,7 +21,7 @@ export const QuestionWrapper = styled.div`
     overflow: scroll; 
 `
 
-export const QuestionTitle = styled.h2`
+export const QuestionTitle = styled.h1`
     width: 100%;
     height: 50px;
     display: flex;
@@ -31,7 +31,6 @@ export const QuestionTitle = styled.h2`
     background: transparent;
     overflow: hidden;
 `
-
 
 export const BusinessOption = styled.div`
     width: 100%;
@@ -52,7 +51,7 @@ export const DeliveryOption = styled.div<ContractTypes>`
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    background: ${({businessService})=>businessService===`delivery`?`#343`:`transparent`};
+    background: ${({ businessService }) => businessService === `delivery` ? `#343` : `transparent`};
     overflow: hidden; 
 `
 
@@ -64,8 +63,118 @@ export const CommerceOption = styled.div<ContractTypes>`
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    background: ${({businessService})=>businessService===`commerce`?`#343`:`transparent`};
+    background: ${({ businessService }) => businessService === `commerce` ? `#343` : `transparent`};
     overflow: hidden; 
+`
+
+export const NegociationWrapper = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+`
+
+export const DescriptionWrapper = styled.div`
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+
+export const TopWrapper = styled.div`
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+export const ImageWrapper = styled.div`
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+`
+
+export const InfoWrapper = styled.div`
+    width: calc(100% - 100px);
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`
+
+export const LineWrapper = styled.div`
+    width: 100%;
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+`
+
+export const NameWrapper = styled.strong`
+    max-width: 60%;
+    height: 100%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-decoration: underline;
+`
+
+export const RatingWrapper = styled.strong`
+    max-width: 40%;
+    height: 100%;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`
+
+export const CountryWrapper = styled.div`
+    max-width: 50%;
+    height: 100%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+`
+
+export const ServiceWrapper = styled.div`
+    max-width: 50%;
+    height: 100%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+`
+
+export const WalletWrapper = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    word-break: break-all;
+`
+
+export const ActionWrapper = styled.div`
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
 `
 
 export const PriceWrapper = styled.div`
@@ -77,17 +186,20 @@ export const PriceWrapper = styled.div`
     justify-content: center;
     background: #4847;
     border-radius: 5px;
+    box-shadow: 4px 4px 12px 8px #0004;
 `
 
 export const InputContainer = styled.label`
     width: 80%;
-    height: 60px;
+    height: 40px;
+    gap: 8px;
     display: flex;
     color: #465;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
 `
+
 export const DeliveryAreaWrapper = styled.div`
     width: 60%;
     height: 60%;
@@ -97,11 +209,9 @@ export const DeliveryAreaWrapper = styled.div`
     
 `
 
-
-
 export const LabelWrapper = styled.div<QuestionTypes>`
     height: 1em;
-    color: ${({isPhysical})=>isPhysical?`#fff`:`#fff3`};
+    color: ${({ isPhysical }) => isPhysical ? `#fff` : `#fff3`};
     font-size: 0.8em;
     display: flex;
     flex-direction: column;
@@ -120,6 +230,7 @@ export const InputElement = styled.input`
     border-radius: 8px;
     border: 1px solid #444;
     outline: none;
+    text-align: center;
 
     ::placeholder {
         color: #fff4;

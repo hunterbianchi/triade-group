@@ -4,6 +4,7 @@ import * as S from './QuestionsStyled'
 
 import Delivery from '../../../../images/Delivery.svg'
 import Production from '../../../../images/Production.svg'
+import { getPublicKey } from '../../../../utils/manageKeys';
 
 export type QuestionTypes = {
     isPhysical: boolean;
@@ -40,11 +41,11 @@ export default function Questions
     handleAmount,
     signature,
     privateKey,
-    handlePrivateKey}:any) {
+    handlePrivateKey
+}:any) {
 
-    const [businessModel, setBusinessModel] = useState(true)
 
-    const [isPhysical, setIsPhysical] = useState(false)
+    const [isPhysical, setIsPhysical] = useState<boolean>(false)
     const [actionArea, setActionArea] = useState<number>(1000)
     
     function handleActionArea (e: any){
@@ -79,7 +80,7 @@ export default function Questions
                     <S.CommerceOption businessService={businessService} onClick={(e: any) => chooseService(e, `commerce`)}>
                         <Image
                             src={Production}
-                            alt="Delivery option"
+                            alt="Commerce option"
                             width={200}
                         />
                         <label>
@@ -211,16 +212,65 @@ export default function Questions
 
             {step === 3 && <S.QuestionWrapper>
 
-                <S.PriceWrapper>
-                    {`TAD: ${0.007}`}
-                </S.PriceWrapper>
-            
-                <S.InputContainer>
-                    <S.InputElement placeholder={`Private Key (secp256k1)`} value={privateKey} type={"text"} onChange={handlePrivateKey} />
-                </S.InputContainer>
-                
-            </S.QuestionWrapper>}
+                <S.NegociationWrapper>
+                    <S.DescriptionWrapper>
+                        <S.TopWrapper>
+                            <S.ImageWrapper>
+                                {businessService === 'commerce' && <Image
+                                    src={Production}
+                                    alt="Commerce option"
+                                    width={100}
+                                />}
+                                {businessService === 'delivery' && <Image
+                                    src={Delivery}
+                                    alt="Commerce option"
+                                    width={100}
+                                />}
+                            </S.ImageWrapper>
+                            <S.InfoWrapper>
+                                <S.LineWrapper>
+                                    <S.NameWrapper>
+                                        {businessName?businessName:"Anonymous"}
+                                    </S.NameWrapper>
+                                    <S.RatingWrapper>
+                                        {`5/5`}
+                                    </S.RatingWrapper>
+                                </S.LineWrapper>
+                                <S.LineWrapper>
+                                    {isPhysical && <S.CountryWrapper>
+                                        {businessCountry}
+                                    </S.CountryWrapper>}
+                                    
+                                    {businessService === 'delivery' && <S.CountryWrapper>
+                                        {businessCountry}
+                                    </S.CountryWrapper>}
+                                    
+                                    <S.ServiceWrapper>
+                                        {businessService}
+                                    </S.ServiceWrapper>
+                                </S.LineWrapper>
+                                <S.LineWrapper>
+                                    <S.WalletWrapper>
+                                        {getPublicKey(privateKey)}
+                                    </S.WalletWrapper>
+                                </S.LineWrapper>
+                            </S.InfoWrapper>
+                        </S.TopWrapper>
+                    </S.DescriptionWrapper>
+                    <S.ActionWrapper>
+                        <S.PriceWrapper>
+                            {`TAD: ${0.0070000000000}`}
+                        </S.PriceWrapper>
 
+                        <S.InputContainer>
+                            <S.InputElement placeholder={`Private Key (secp256k1)`} value={privateKey} type={"text"} onChange={handlePrivateKey} />
+                        </S.InputContainer>
+                    </S.ActionWrapper>
+
+                </S.NegociationWrapper>
+
+            </S.QuestionWrapper>}
+            
         </S.Wrapper>
     )
 }

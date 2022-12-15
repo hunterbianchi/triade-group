@@ -5,6 +5,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 
 import imag from '../space2.jpg'
+import logo from '../../public/triade.png'
 import TopNotification from '../components/TopNotifications'
 import ServicePreview from '../components/ServicePreview'
 import NewContractForm from '../components/NewContractForm'
@@ -20,10 +21,13 @@ export default function Home() {
     // const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
     
     const [ navigatorName, setNavigatorName ] = useState<string>('')
+
     const [ isChromium, setIsChromium ] = useState<boolean>(navigatorName==="Chromium")
     
     const [ personality, setPersonality ] = useState<string>('commercial')
     
+    const [ isLoading, setIsLoading ] = useState<boolean>(true)
+
     const [ isTopOpen, setIsTopOpen ] = useState<boolean>(false)
     const [ isDisabledTypeBtn, setIsDisabledTypeBtn ] = useState<boolean>(true)
     const [ contractList, setContractList ] = useState<Array<any>>([])
@@ -109,6 +113,7 @@ export default function Home() {
 
 
     const newFormParam = {
+        setIsLoading,
         isChromium,
         setShowGroupOptions,
         setContractGroup,
@@ -126,6 +131,7 @@ export default function Home() {
 
     useEffect(()=>{
         getBrowser()
+        setIsLoading(false)
     },[])
 
     useEffect(()=>{
@@ -195,11 +201,21 @@ export default function Home() {
 
                 {showNewContractForm && <S.NewContractContainer>
                     <NewContractForm {...newFormParam} />
-                </S.NewContractContainer>} </>
-            }
-
+                </S.NewContractContainer>}
+            </>}
 
             </S.MainWrapper>
+
+            {isLoading && <S.LoadingWrapper>
+                <S.IconWrapper>
+                    <Image
+                    src={logo}
+                    alt="triade logo"
+                    width={300}
+                    height={300}
+                    />
+                </S.IconWrapper>
+            </S.LoadingWrapper>}
 
 		</S.Wrapper>
 	)

@@ -9,7 +9,9 @@ export type ContractTypes = {
 }
 
 
-export default function NewContractForm({
+export default function NewContractForm
+({
+    setIsLoading,
     isChromium,
     setShowGroupOptions,
     setContractGroup,
@@ -22,7 +24,8 @@ export default function NewContractForm({
     showGroupOptions,
     showTypeOptions,
     isDisabledTypeBtn,
-    closeContractForm}:any){
+    closeContractForm
+}:any){
 
     const [ privateKey, setPrivateKey ] = useState<string>('')
     const [ fromAddress, setFromAddress ] = useState<string>('')
@@ -117,6 +120,7 @@ export default function NewContractForm({
     }
 
     const newBusinessParam = {
+        setIsLoading,
         businessName,
         businessService,
         businessCountry,
@@ -133,6 +137,7 @@ export default function NewContractForm({
         signature,
         privateKey,
         handleBusinessName,
+        setBusinessName,
         setBusinessService,
         handleBusinessCountry,
         handleBusinessState,
@@ -146,6 +151,7 @@ export default function NewContractForm({
         handleAmount,
         closeContractForm
     }
+
     return (
         <S.Wrapper>
             <S.TriadeOptionsWrapper>    

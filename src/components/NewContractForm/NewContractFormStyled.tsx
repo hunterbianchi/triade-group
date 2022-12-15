@@ -124,11 +124,13 @@ export const OptionBtn = styled.button`
     background: transparent;
     border: none;
     border: 1px solid #3333;
+    border-radius: 6px;
     cursor: pointer;
     
     :hover{
         background: #0007;
         color: #8f8;
         border: 1px solid #4a4;
+        box-shadow: 0px 0px 80px 2px #040;
     }
 `

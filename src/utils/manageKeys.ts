@@ -13,7 +13,13 @@ export function createKeyPair(){
 }
 
 export function getPublicKey(privateKey: string){
-    
-    return ec.keyFromPrivate(privateKey).getPublic('hex')
-    
+
+    const key = ec.genKeyPair()
+
+    if(privateKey){
+        return ec.keyFromPrivate(privateKey).getPublic('hex')
+    }else{
+        // return ec.keyFromPrivate(key.getPrivate('hex')).getPublic('hex')
+        return key.getPrivate('hex')
+    }
 }

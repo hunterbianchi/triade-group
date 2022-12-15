@@ -54,6 +54,7 @@ export const FloatMidWrapper = styled.div`
     justify-content: start;
     background: #6452;
     overflow: scroll;
+    font-size: 0.5em;
 `
 
 export const FloatBottomWrapper = styled.div`

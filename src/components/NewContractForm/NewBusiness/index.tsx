@@ -7,6 +7,7 @@ import Questions from './Questions'
 
 export default function NewBusiness
 ({
+    setIsLoading,
     businessName,
     businessService,
     businessCountry,
@@ -17,6 +18,7 @@ export default function NewBusiness
     businessNumber,
     businessZipCode,
     handleBusinessName,
+    setBusinessName,
     setBusinessService,
     handleBusinessCountry,
     handleBusinessState,
@@ -124,44 +126,68 @@ export default function NewBusiness
         setNoNext(false)
     }
 
-    function createBusines(e: any){
+    async function createBusines(e: any){
         
         e.preventDefault()
 
-        const businessPair = createKeyPair()
-        
-            const busines: any = {
-                name: businessName?businessName:`Anonymous`,
-                businessWallet: businessPair.publicKey,
-                businessAddress: {
-                    country: businessCountry,
-                    state: businessState,
-                    city: businessCity,
-                    neighbourhood: businessNeighbourhood,
-                    street: businessStreet,
-                    zipCode: businessZipCode,
-                    number: businessNumber
-                },
-                owner: getPublicKey(privateKey),
-            }
+        setIsLoading(true)       
 
+        if(businessName === ""){
+            alert(businessName)
+            setBusinessName("Anonymous")
+        }
+
+        const businessPair = createKeyPair()
+    
+        const business: any = {
+            name: businessName,
+            businessWallet: businessPair.publicKey,
+            owner: getPublicKey(privateKey),
+            businessAddress: {
+                country: businessCountry,
+                state: businessState,
+                city: businessCity,
+                neighbourhood: businessNeighbourhood,
+                street: businessStreet,
+                zipCode: businessZipCode,
+                number: businessNumber
+            },
+        }
+
+        try {
+            await fetch(`https://triade-api.vercel.app/api/chain`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    type: "new-business",
+                    data: business
+                })
+            }).then(res=>res.json()).then(res=>{
+                alert(res.type)
+            })
+            
+        } catch (error) {
+            setIsLoading(false)
+            
+        }finally{
+
+            setIsLoading(false)
+        }
 
         // getPublicKey("69906cbe1bb7e266bf4bbadf534e1fb5199381790ef5b1cfdb8fabc38239c56c")
         // alert(getPublicKey(privateKey))
         alert(`Wright down your Private Key:\n${businessPair.privateKey}`)
 
-        const protocol = '01'
-        const owner = '01'
-        const enc = Buffer.from(JSON.stringify(busines)).toString('base64')
-        
+        const enc = Buffer.from(JSON.stringify(business)).toString('base64')
         const dec = Buffer.from(enc, 'base64').toString('ascii')
-
-        const opCode = `${dec.length}`
+        
     }
 
     useEffect(() => {
         document.addEventListener("keypress", (e) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && step < 4) {
                 setStep(step + 1)
             }
         })
@@ -187,9 +213,7 @@ export default function NewBusiness
         <S.Wrapper id={'form'}>
             <S.FloatWrapper isChromium={isChromium}>
                 <S.FloatTopWrapper>
-                    
                     {`$new_Businnes(${businessName?businessName.replaceAll(" ", "_"):`Anonymous`});`}
-                    
                 </S.FloatTopWrapper>
 
                 <S.FloatMidWrapper>
