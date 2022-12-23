@@ -184,15 +184,19 @@ export default function NewBusiness
 
         const opCode = objectToOpCode(business, "TAD-20")
 
-        const header = {
-            owner: business.owner,
-            toAddress: null,
-            amount: amount,
-            signature,
-        }
         const payload = {
-            opCode,
-            hash: ''
+
+            const header = {
+                owner: business.owner,
+                toAddress: null,
+                amount: amount,
+                signature,
+            }
+            const payload = {
+                opCode,
+                hash: ''
+            }
+            
         }
 
         if(isPhysical){
