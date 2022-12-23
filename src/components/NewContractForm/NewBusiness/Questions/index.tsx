@@ -14,6 +14,8 @@ export type QuestionTypes = {
 
 export default function Questions
 ({
+    isPhysical,
+    setIsPhysical,
     businessName,
     businessService,
     businessCountry,
@@ -44,8 +46,6 @@ export default function Questions
     handlePrivateKey
 }:any) {
 
-
-    const [isPhysical, setIsPhysical] = useState<boolean>(false)
     const [actionArea, setActionArea] = useState<number>(1000)
     
     function handleActionArea (e: any){

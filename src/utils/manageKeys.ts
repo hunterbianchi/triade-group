@@ -1,5 +1,4 @@
 const EC = require('elliptic').ec
-
 const ec = new EC('secp256k1')
 
 export function createKeyPair(){
@@ -35,7 +34,6 @@ export function signHash( contractHash:string, privateKey:string ){
 
     return signature
 }
-
 
 export function verifySignature(publicKey:string, hash:string, signature:string){
         

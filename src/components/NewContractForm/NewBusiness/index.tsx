@@ -1,13 +1,16 @@
+import { SHA256 } from 'crypto-js'
 import { useEffect, useState } from 'react'
+import { createKeyPair, getPublicKey, signHash } from '../../../utils/manageKeys'
 import * as F from 'react-icons/fa'
 import * as M from 'react-icons/md'
-import { createKeyPair, getPublicKey } from '../../../utils/manageKeys'
 import * as S from './NewBusinessStyled'
 import Questions from './Questions'
+import { objectToOpCode, opCodeToObject } from '../../../utils/opCode'
 
 export default function NewBusiness
 ({
     setIsLoading,
+    setSignature,
     businessName,
     businessService,
     businessCountry,
@@ -41,6 +44,7 @@ export default function NewBusiness
 
 
     const [step, setStep] = useState(0)
+    const [isPhysical, setIsPhysical] = useState<boolean>(false)
     const [noPrev, setNoPrev] = useState(step <= 0)
     const [noNext, setNoNext] = useState(false)
 
@@ -136,10 +140,6 @@ export default function NewBusiness
             setBusinessName("Anonymous")
         }
 
-        const businessPair = createKeyPair()
-
-        alert(`Write down your Business's Private key\n\n${businessPair.privateKey}`)
-
         // curl -X POST -d '{"type":"new-business","data":{"header":{"owner":"04817b5ba328e3e2c7d50c4726572b0fd8a518f08cae361d05f07e83d4b584eb10ecd010be823eab085daed129f4aab02800ba85e377a2d6ab753bc4e1ff3652cb","toAddress":"","amount":0.0007,"signature":"3045022100f237d0f68ace2895e5c382d3141c24045876ad433c1d95d7c8695a5e832643e202204312c00c9ad641bf7df9726ffedf3883c7f01cc690ea8b75c6cbc34876243988"},"payload":{"hash":"efc9e923fc16cda2446214dc00fda19093e11913a2ec49aef92f56dad6c81396","data":"TRÍADE"}}}' -H 'Content-Type':'application/json' localhost:3001/api/chain
 
 
@@ -160,12 +160,18 @@ export default function NewBusiness
             }
         }
         */
+        
+        const businessPair = createKeyPair()
+
+        alert(`Write down your Business's Private key\n\nIt is a new Private Key needed to menage this contract\n\n${businessPair.privateKey}`)
 
         const business: any = {
-            name: businessName,
+            owner: getPublicKey(privateKey),
             businessWallet: businessPair.publicKey,
-            owner: businessPair.publicKey,
-            businessAddress: {
+            businessName: businessName,
+        }
+        if(!isPhysical){
+            business.businessAddress = {
                 country: businessCountry,
                 state: businessState,
                 city: businessCity,
@@ -173,8 +179,54 @@ export default function NewBusiness
                 street: businessStreet,
                 zipCode: businessZipCode,
                 number: businessNumber
-            },
+            }
         }
+
+        const opCode = objectToOpCode(business, "TAD-20")
+
+        const header = {
+            owner: business.owner,
+            toAddress: null,
+            amount: amount,
+            signature,
+        }
+        const payload = {
+            opCode,
+            hash: ''
+        }
+
+        if(isPhysical){
+            
+            business.hash = SHA256(`${business.owner}${business.businessWallet}${business.businessName}${business.businessCountry}${business.businessState}${business.businessCity}${business.businessNeighbourhood}${business.businessStreet}${business.businessZipCode}${business.businessNumber}`).toString()
+        }else{
+
+            business.hash = SHA256(`${business.owner}${business.businessWallet}${business.businessName}`).toString()
+        }
+        
+
+        if(privateKey){
+
+            try {
+                setSignature(signHash(business.hash, privateKey))
+                const header = {
+                    owner: business.owner,
+                    toAddress: business.toAddress,
+                    amount: business.amount,
+                    signature: business.signature,
+                }
+                
+            } catch (error) {
+                alert(`Could not Sign this Contract`)
+                setIsLoading(false)
+                return
+            }
+
+        }else{
+            alert('Put your Private Key to sign this Contract')
+            setIsLoading(false)
+            return
+        }
+        
 
         const contract: any = {
             header: {
@@ -184,10 +236,11 @@ export default function NewBusiness
                 signature
             },
             payload:{
-                hash:'',
-                data:''
+                hash:business.hash,
+                data:opCode
             },
         }
+        alert(contract.payload.hash)
 
         try {
             await fetch(`https://triade-api.vercel.app/api/chain`, {
@@ -200,7 +253,8 @@ export default function NewBusiness
                     data: contract
                 })
             }).then(res=>res.json()).then(res=>{
-                alert(res.type)
+                // 13b3dfb8ef9b985229dce5f6a16ce4bcaee5fdccba6723ab5b082573ca4939aa
+                alert(JSON.stringify(res))
             })
             
         } catch (error) {
@@ -210,13 +264,7 @@ export default function NewBusiness
 
             setIsLoading(false)
         }
-
-        // getPublicKey("69906cbe1bb7e266bf4bbadf534e1fb5199381790ef5b1cfdb8fabc38239c56c")
-        // alert(getPublicKey(privateKey))
-        alert(`Wright down your Private Key:\n${businessPair.privateKey}`)
-
-        const enc = Buffer.from(JSON.stringify(business)).toString('base64')
-        const dec = Buffer.from(enc, 'base64').toString('ascii')
+        
         
     }
 

@@ -121,6 +121,7 @@ export default function NewContractForm
 
     const newBusinessParam = {
         setIsLoading,
+        setSignature,
         businessName,
         businessService,
         businessCountry,
