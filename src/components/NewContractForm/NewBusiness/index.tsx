@@ -165,7 +165,7 @@ export default function NewBusiness
 
         alert(`Write down your Business's Private key\n\nIt is a new Private Key needed to menage this contract\n\n${businessPair.privateKey}`)
 
-        const business: any = {
+        const businessObject: any = {
             owner: getPublicKey(privateKey),
             businessWallet: businessPair.publicKey,
             businessName: businessName,
@@ -182,9 +182,9 @@ export default function NewBusiness
             }
         }
 
-        const opCode = objectToOpCode(business, "TAD-20")
+        const opCode = objectToOpCode(businessObject, "TAD-20")
 
-        const payload = {
+        const business = {
 
             const header = {
                 owner: business.owner,
@@ -196,12 +196,12 @@ export default function NewBusiness
                 opCode,
                 hash: ''
             }
-            
+
         }
 
         if(isPhysical){
             
-            business.hash = SHA256(`${business.owner}${business.businessWallet}${business.businessName}${business.businessCountry}${business.businessState}${business.businessCity}${business.businessNeighbourhood}${business.businessStreet}${business.businessZipCode}${business.businessNumber}`).toString()
+            business.hash = SHA256(`${businessObject.owner}${businessObject.businessWallet}${businessObject.businessName}${businessObject.businessCountry}${businessObject.businessState}${businessObject.businessCity}${businessObject.businessNeighbourhood}${businessObject.businessStreet}${businessObject.businessZipCode}${businessObject.businessNumber}`).toString()
         }else{
 
             business.hash = SHA256(`${business.owner}${business.businessWallet}${business.businessName}`).toString()
@@ -225,51 +225,36 @@ export default function NewBusiness
                 return
             }
 
+
+
+            try {
+                await fetch(`https://triade-api.vercel.app/api/chain`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({
+                        type: "new-business",
+                        data: contract
+                    })
+                }).then(res=>res.json()).then(res=>{
+                    // 13b3dfb8ef9b985229dce5f6a16ce4bcaee5fdccba6723ab5b082573ca4939aa
+                    alert(JSON.stringify(res))
+                })
+                
+            } catch (error) {
+                setIsLoading(false)
+                
+            }finally{
+    
+                setIsLoading(false)
+            }
+
         }else{
             alert('Put your Private Key to sign this Contract')
             setIsLoading(false)
             return
         }
-        
-
-        const contract: any = {
-            header: {
-                owner: getPublicKey(privateKey),
-                toAddress,
-                amount,
-                signature
-            },
-            payload:{
-                hash:business.hash,
-                data:opCode
-            },
-        }
-        alert(contract.payload.hash)
-
-        try {
-            await fetch(`https://triade-api.vercel.app/api/chain`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type':'application/json'
-                },
-                body:JSON.stringify({
-                    type: "new-business",
-                    data: contract
-                })
-            }).then(res=>res.json()).then(res=>{
-                // 13b3dfb8ef9b985229dce5f6a16ce4bcaee5fdccba6723ab5b082573ca4939aa
-                alert(JSON.stringify(res))
-            })
-            
-        } catch (error) {
-            setIsLoading(false)
-            
-        }finally{
-
-            setIsLoading(false)
-        }
-        
-        
     }
 
     useEffect(() => {
