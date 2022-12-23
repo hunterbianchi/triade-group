@@ -181,7 +181,7 @@ export default function NewContractForm
 
             </S.ContractContainer>
 
-            {showGroupOptions && <S.FloatOptionsWrapper>
+            {showGroupOptions && <S.FloatOptionsWrapper onClick={e=>setShowGroupOptions(false)}>
                 <S.FloatOptions>
                     {allGroups.map((group:any)=>{
                         return(
@@ -193,7 +193,7 @@ export default function NewContractForm
                 </S.FloatOptions>
             </S.FloatOptionsWrapper>}
             
-            {showTypeOptions && <S.FloatOptionsWrapper>
+            {showTypeOptions && <S.FloatOptionsWrapper onClick={e=>setShowTypeOptions(false)}>
                 <S.FloatOptions>
                     {contractGroup.type.map((type:any)=>{
                         return(

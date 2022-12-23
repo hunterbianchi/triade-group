@@ -133,16 +133,38 @@ export default function NewBusiness
         setIsLoading(true)       
 
         if(businessName === ""){
-            alert(businessName)
             setBusinessName("Anonymous")
         }
 
         const businessPair = createKeyPair()
-    
+
+        alert(`Write down your Business's Private key\n\n${businessPair.privateKey}`)
+
+        // curl -X POST -d '{"type":"new-business","data":{"header":{"owner":"04817b5ba328e3e2c7d50c4726572b0fd8a518f08cae361d05f07e83d4b584eb10ecd010be823eab085daed129f4aab02800ba85e377a2d6ab753bc4e1ff3652cb","toAddress":"","amount":0.0007,"signature":"3045022100f237d0f68ace2895e5c382d3141c24045876ad433c1d95d7c8695a5e832643e202204312c00c9ad641bf7df9726ffedf3883c7f01cc690ea8b75c6cbc34876243988"},"payload":{"hash":"efc9e923fc16cda2446214dc00fda19093e11913a2ec49aef92f56dad6c81396","data":"TRÍADE"}}}' -H 'Content-Type':'application/json' localhost:3001/api/chain
+
+
+        /* 
+        {
+            "type":"new-business",
+            "data":{
+                "header":{
+                    "owner":"04817b5ba328e3e2c7d50c4726572b0fd8a518f08cae361d05f07e83d4b584eb10ecd010be823eab085daed129f4aab02800ba85e377a2d6ab753bc4e1ff3652cb",
+                    "toAddress":"",
+                    "amount":0.0007,
+                    "signature":"3045022100f237d0f68ace2895e5c382d3141c24045876ad433c1d95d7c8695a5e832643e202204312c00c9ad641bf7df9726ffedf3883c7f01cc690ea8b75c6cbc34876243988"
+                },
+                "payload":{
+                    "hash":"efc9e923fc16cda2446214dc00fda19093e11913a2ec49aef92f56dad6c81396",
+                    "data":"TRÍADE"
+                }
+            }
+        }
+        */
+
         const business: any = {
             name: businessName,
             businessWallet: businessPair.publicKey,
-            owner: getPublicKey(privateKey),
+            owner: businessPair.publicKey,
             businessAddress: {
                 country: businessCountry,
                 state: businessState,
@@ -154,6 +176,19 @@ export default function NewBusiness
             },
         }
 
+        const contract: any = {
+            header: {
+                owner: getPublicKey(privateKey),
+                toAddress,
+                amount,
+                signature
+            },
+            payload:{
+                hash:'',
+                data:''
+            },
+        }
+
         try {
             await fetch(`https://triade-api.vercel.app/api/chain`, {
                 method: 'POST',
@@ -162,7 +197,7 @@ export default function NewBusiness
                 },
                 body:JSON.stringify({
                     type: "new-business",
-                    data: business
+                    data: contract
                 })
             }).then(res=>res.json()).then(res=>{
                 alert(res.type)

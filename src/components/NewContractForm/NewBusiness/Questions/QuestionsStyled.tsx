@@ -12,7 +12,7 @@ export const QuestionWrapper = styled.div`
     width: 100%;
     height: 100%;
     padding: 18px 0px;
-    gap: 12px;
+    gap: 12px 0px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -162,9 +162,11 @@ export const ServiceWrapper = styled.div`
 export const WalletWrapper = styled.div`
     width: 100%;
     height: 100%;
+    padding: 8px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    text-align: center;
     word-break: break-all;
 `
 
@@ -184,9 +186,18 @@ export const PriceWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #4847;
+    border-top: 4px solid #262;
+    border-bottom: 4px solid #231;
+    background: #242;
     border-radius: 5px;
     box-shadow: 4px 4px 12px 8px #0004;
+    cursor: default;
+
+    :hover{
+        border-top: 4px solid #262;
+        border-bottom: 4px solid #262;
+        background: #284;
+    }
 `
 
 export const InputContainer = styled.label`

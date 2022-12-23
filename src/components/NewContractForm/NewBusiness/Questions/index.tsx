@@ -237,11 +237,7 @@ export default function Questions
                                     </S.RatingWrapper>
                                 </S.LineWrapper>
                                 <S.LineWrapper>
-                                    {isPhysical && <S.CountryWrapper>
-                                        {businessCountry}
-                                    </S.CountryWrapper>}
-                                    
-                                    {businessService === 'delivery' && <S.CountryWrapper>
+                                    {isPhysical && businessService === 'delivery' && <S.CountryWrapper>
                                         {businessCountry}
                                     </S.CountryWrapper>}
                                     

@@ -108,9 +108,11 @@ export const FloatOptions = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: #312;
+    /* background: #312; */
+    background: #132;
     border-radius: 4px;
-    border: 1px solid #645;
+    /* border: 1px solid #645; */
+    border: 1px solid #406050;
     box-shadow: 6px 12px 12px 8px #001;
 `
 
