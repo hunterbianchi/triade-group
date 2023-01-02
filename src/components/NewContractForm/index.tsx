@@ -33,6 +33,7 @@ export default function NewContractForm
     const [ amount, setAmount ] = useState<number>(0)
     
     const [ businessName, setBusinessName ] = useState<string>('')
+    const [ businessImage, setBusinessImage ] = useState<any>('')
     const [ businessService, setBusinessService ] = useState<string>('')
     const [ businessCountry, setBusinessCountry ] = useState<string>('')
     const [ businessState, setBusinessState ] = useState<string>('')
@@ -44,8 +45,6 @@ export default function NewContractForm
 
     const [ signature, setSignature ] = useState<string>('')
     const [ fingerprint, setFingerprint ] = useState<string>('')
-
-    const [ business, setBusiness ] = useState<any>({})
     
 
     function handlePrivateKey (e:any){
@@ -120,6 +119,8 @@ export default function NewContractForm
     }
 
     const newBusinessParam = {
+        businessImage,
+        setBusinessImage,
         setIsLoading,
         setSignature,
         businessName,

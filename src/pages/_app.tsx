@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import logo from '../../public/triade.png'
 
+
 export type AppTypes = {
   logoOpacity?: Number,
 }

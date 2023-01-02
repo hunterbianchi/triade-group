@@ -53,8 +53,8 @@ export const FloatMidWrapper = styled.div`
     align-items: center;
     justify-content: start;
     background: #6452;
-    overflow: scroll;
-    font-size: 0.5em;
+    overflow: hidden;
+    font-size: 0.7em;
 `
 
 export const FloatBottomWrapper = styled.div`

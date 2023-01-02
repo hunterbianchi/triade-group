@@ -18,7 +18,14 @@ export const QuestionWrapper = styled.div`
     align-items: center;
     justify-content: start;
     background: transparent;
-    overflow: scroll; 
+    overflow: scroll;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    
+    ::-webkit-scrollbar {
+        display: none;
+    }
 `
 
 export const QuestionTitle = styled.h1`
@@ -79,6 +86,7 @@ export const NegociationWrapper = styled.div`
 export const DescriptionWrapper = styled.div`
     width: 100%;
     height: 50%;
+    padding: 0px 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -100,6 +108,22 @@ export const ImageWrapper = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    object-fit: auto;
+    overflow: hidden;
+`
+
+export const ImagePreview = styled.div`
+    max-width: 200px;
+    min-width: 200px;
+    max-height: 200px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    object-fit: auto;
+    overflow: hidden;
 `
 
 export const InfoWrapper = styled.div`
@@ -200,15 +224,14 @@ export const PriceWrapper = styled.div`
     }
 `
 
-export const InputContainer = styled.label`
+export const InputLabel = styled.label`
     width: 80%;
-    height: 40px;
     gap: 8px;
     display: flex;
-    color: #465;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+    color: #465;
 `
 
 export const DeliveryAreaWrapper = styled.div`
@@ -231,8 +254,8 @@ export const LabelWrapper = styled.div<QuestionTypes>`
 `
 
 export const InputElement = styled.input`
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 2rem;
     padding: 1em;
     font-size: 0.9em;
     color: #4a4;

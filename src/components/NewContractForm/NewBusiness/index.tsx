@@ -9,6 +9,9 @@ import { objectToOpCode, opCodeToObject } from '../../../utils/opCode'
 
 export default function NewBusiness
 ({
+
+    businessImage,
+    setBusinessImage,
     setIsLoading,
     setSignature,
     businessName,
@@ -50,6 +53,10 @@ export default function NewBusiness
 
 
     const questionParam = {
+        businessImage,
+        setBusinessImage,
+        isPhysical,
+        setIsPhysical,
         businessName,
         businessService,
         businessCountry,
@@ -84,28 +91,12 @@ export default function NewBusiness
 
         e.preventDefault()
 
-        if(step + 1 === 1){
-            
-            if(businessService){
-                setNoNext(false)
-            }else{
-                setNoNext(true)
-            }
+        if(step + 1 <= 4){
             setNoPrev(false)
             setStep(step + 1)
 
-        }else if(step + 1 === 2){
-            setStep(step+1)
-        }else if(step + 1 === 3 || step + 1 === 3.5){
-          
-            if(businessService==='delivery'){
-                
-                setStep(step+0.5)
-
-            }else{
-
-                setStep(step+1)
-            }
+        }else {
+          setNoNext(true)
         }
     }
 
@@ -134,127 +125,97 @@ export default function NewBusiness
         
         e.preventDefault()
 
-        setIsLoading(true)       
-
         if(businessName === ""){
             setBusinessName("Anonymous")
         }
 
-        // curl -X POST -d '{"type":"new-business","data":{"header":{"owner":"04817b5ba328e3e2c7d50c4726572b0fd8a518f08cae361d05f07e83d4b584eb10ecd010be823eab085daed129f4aab02800ba85e377a2d6ab753bc4e1ff3652cb","toAddress":"","amount":0.0007,"signature":"3045022100f237d0f68ace2895e5c382d3141c24045876ad433c1d95d7c8695a5e832643e202204312c00c9ad641bf7df9726ffedf3883c7f01cc690ea8b75c6cbc34876243988"},"payload":{"hash":"efc9e923fc16cda2446214dc00fda19093e11913a2ec49aef92f56dad6c81396","data":"TRÍADE"}}}' -H 'Content-Type':'application/json' localhost:3001/api/chain
-
-
-        /* 
-        {
-            "type":"new-business",
-            "data":{
-                "header":{
-                    "owner":"04817b5ba328e3e2c7d50c4726572b0fd8a518f08cae361d05f07e83d4b584eb10ecd010be823eab085daed129f4aab02800ba85e377a2d6ab753bc4e1ff3652cb",
-                    "toAddress":"",
-                    "amount":0.0007,
-                    "signature":"3045022100f237d0f68ace2895e5c382d3141c24045876ad433c1d95d7c8695a5e832643e202204312c00c9ad641bf7df9726ffedf3883c7f01cc690ea8b75c6cbc34876243988"
-                },
-                "payload":{
-                    "hash":"efc9e923fc16cda2446214dc00fda19093e11913a2ec49aef92f56dad6c81396",
-                    "data":"TRÍADE"
-                }
-            }
-        }
-        */
-        
-        const businessPair = createKeyPair()
-
-        alert(`Write down your Business's Private key\n\nIt is a new Private Key needed to menage this contract\n\n${businessPair.privateKey}`)
-
-        const businessObject: any = {
-            owner: getPublicKey(privateKey),
-            businessWallet: businessPair.publicKey,
-            businessName: businessName,
-        }
-        if(!isPhysical){
-            business.businessAddress = {
-                country: businessCountry,
-                state: businessState,
-                city: businessCity,
-                neighbourhood: businessNeighbourhood,
-                street: businessStreet,
-                zipCode: businessZipCode,
-                number: businessNumber
-            }
-        }
-
-        const opCode = objectToOpCode(businessObject, "TAD-20")
-
-        const business = {
-
-            const header = {
-                owner: business.owner,
-                toAddress: null,
-                amount: amount,
-                signature,
-            }
-            const payload = {
-                opCode,
-                hash: ''
-            }
-
-        }
-
-        if(isPhysical){
-            
-            business.hash = SHA256(`${businessObject.owner}${businessObject.businessWallet}${businessObject.businessName}${businessObject.businessCountry}${businessObject.businessState}${businessObject.businessCity}${businessObject.businessNeighbourhood}${businessObject.businessStreet}${businessObject.businessZipCode}${businessObject.businessNumber}`).toString()
+        if(!privateKey){
+            alert("\n\tCONTRACT NOT SIGNED!\n\n\tPut you private key to sign this contract.\n\n")
+            setIsLoading(false)
         }else{
 
-            business.hash = SHA256(`${business.owner}${business.businessWallet}${business.businessName}`).toString()
-        }
-        
+            setIsLoading(true)
 
-        if(privateKey){
+            const businessPair = createKeyPair()
+
+            const token: any = {
+                header:{
+                    timestamp:new Date().getTime(),
+                    owner: getPublicKey(privateKey),
+                    toAddress: "00000000",
+                    amount,
+                },
+                data:{
+                    businessRating:5,
+                    businessWallet: businessPair.publicKey,
+                    businessName,
+                    businessService,
+                    businessProducts: businessService==="Commerce"?[]:null,
+                    businessImage,
+                }
+            }
+            if(isPhysical){
+                token.data.businessAddress = {
+                    businessCountry,
+                    businessState,
+                    businessCity,
+                    businessNeighbourhood,
+                    businessStreet,
+                    businessZipCode,
+                    businessNumber
+                }
+
+                token.data.addressHash = SHA256(`${businessCountry}${businessState}${businessCity}${businessNeighbourhood}${businessStreet}${businessZipCode}${businessNumber}`).toString()
+            }
+            
+            token.data.dataHash = SHA256(`${token.data.businessRating}${token.data.businessWallet}${token.data.businessName}${token.data.businessImage}${token.data.businessService}${token.data.businessProducts?JSON.stringify(token.data.businessProducts):null}${isPhysical?token.data.addressHash:null}`).toString()
+            
+            token.header.hash = SHA256(`${token.header.timestamp}${token.header.owner}${token.header.toAddress}${token.header.amount}${token.data.dataHash}`).toString()
+                // d7e0a0eb8980967dddd63988223315f22222722ee45f212991b1492b039ec713
 
             try {
-                setSignature(signHash(business.hash, privateKey))
-                const header = {
-                    owner: business.owner,
-                    toAddress: business.toAddress,
-                    amount: business.amount,
-                    signature: business.signature,
-                }
+
+                token.header.signature = signHash(token.header.hash, privateKey)
+
+                setSignature(token.header.signature)
                 
             } catch (error) {
+
                 alert(`Could not Sign this Contract`)
+                closeContractForm()
                 setIsLoading(false)
                 return
-            }
 
-
-
-            try {
-                await fetch(`https://triade-api.vercel.app/api/chain`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type':'application/json'
-                    },
-                    body:JSON.stringify({
-                        type: "new-business",
-                        data: contract
-                    })
-                }).then(res=>res.json()).then(res=>{
-                    // 13b3dfb8ef9b985229dce5f6a16ce4bcaee5fdccba6723ab5b082573ca4939aa
-                    alert(JSON.stringify(res))
-                })
-                
-            } catch (error) {
-                setIsLoading(false)
-                
             }finally{
-    
-                setIsLoading(false)
-            }
+                alert(`\n\nTHIS BUSINESS KEY WILL NOT BE VISIBLE AGAIN!!!\n\nWrite down to a paper and keep it safe\n\n${businessPair.privateKey}`)
 
-        }else{
-            alert('Put your Private Key to sign this Contract')
-            setIsLoading(false)
-            return
+                try {
+                    await fetch(`https://triade-api.vercel.app/api/chain`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type':'application/json'
+                        },
+                        body:JSON.stringify({
+                            type: "new-business",
+                            data: token
+                        })
+                    }).then(res=>res.json()).then(res=>{
+                        
+                        alert(JSON.stringify(res.type))
+                    })
+                    
+                } catch (error) {
+                    closeContractForm()
+                    setIsLoading(false)
+                    
+                }finally{
+                    closeContractForm()    
+                    setIsLoading(false)
+                }
+
+            }
         }
+
     }
 
     useEffect(() => {
@@ -297,8 +258,8 @@ export default function NewBusiness
                         <M.MdChevronLeft/>
                     </S.NavFormBtn>
 
-                    <S.NavFormBtn onClick={step < 3?nextStep:createBusines} disabled={noNext}>
-                        {step < 3?
+                    <S.NavFormBtn onClick={step < 4?nextStep:createBusines} disabled={noNext}>
+                        {step < 4?
                         <M.MdChevronRight/>
                         :
                         <M.MdCheck/>}

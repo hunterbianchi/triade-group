@@ -10,11 +10,21 @@ export type QuestionTypes = {
     isPhysical: boolean;
 }
 
+function convertToBase64(file: any) {
+    return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+    });
+}
 
 
 export default function Questions
 ({
     isPhysical,
+    businessImage,
+    setBusinessImage,
     setIsPhysical,
     businessName,
     businessService,
@@ -52,6 +62,20 @@ export default function Questions
         setActionArea(e.target.value)
     }
 
+    async function handleFile(e:any){
+        const files = e.target.files
+        if(files){
+            for (let file of files) {
+                if(file.type.startsWith('image/')){
+                    setBusinessImage(await convertToBase64(file))
+                }else{
+                    alert('File is not an Image!\n\nSelect an Image to continue or do not select anything')
+                    setBusinessImage('')
+                }
+            }
+        }
+    }
+
     return (
         <S.Wrapper>
             {step === 0 && <S.QuestionWrapper>
@@ -59,172 +83,163 @@ export default function Questions
                     {`Business Name:`}
                 </S.QuestionTitle>
 
-                <S.InputContainer>
+                <S.InputLabel htmlFor='business-name'>
                     {`( Empty to Anonymous business )`}
-                    <S.InputElement placeholder={`Anonymous`} value={businessName} type={"text"} onChange={handleBusinessName} />
-                </S.InputContainer>
+                </S.InputLabel>
+                <S.InputElement id='business-name' placeholder={`Anonymous`} value={businessName} type={"text"} onChange={handleBusinessName} />
+
+            </S.QuestionWrapper>}
+            
+            {step === 1 && <S.QuestionWrapper>
+                <S.QuestionTitle>
+                    {`${businessName?businessName:'"Anonymous"'} Logo:`}
+                </S.QuestionTitle>
+                
+                {businessImage && <S.ImagePreview>
+                    <Image
+                        src={businessImage}
+                        alt='Business Logo'
+                        width={200}
+                        height={200}
+                        style={{overflow:"hidden", objectFit: "contain", background: "#fff"}}
+                        
+                    />
+                </S.ImagePreview> || <>{"Heyy"}</>}
+
+                <S.InputLabel htmlFor='logo'>
+                    {`Choose an image`}
+                </S.InputLabel>
+                <S.InputElement id='logo' accept="image/*" type={"file"} onChange={handleFile} />
+                    
             </S.QuestionWrapper>}
 
-            {step === 1 && <S.QuestionWrapper>
+            {step === 2 && <S.QuestionWrapper>
                 <S.BusinessOption>
                     <S.DeliveryOption businessService={businessService} onClick={(e: any) => chooseService(e, `delivery`)}>
+                        <label htmlFor='business-delivery'>Delivery</label>
                         <Image
+                            id='business-delivery'
                             src={Delivery}
                             alt="Delivery option"
                             width={200}
                         />
-                        <label>
-                            <input name={`Radio`} checked={businessService === 'delivery'} type={"radio"} />
-                        </label>
+                        <input name={`Radio`} checked={businessService === 'delivery'} type={"radio"} />
                     </S.DeliveryOption>
                     <S.CommerceOption businessService={businessService} onClick={(e: any) => chooseService(e, `commerce`)}>
+                    <label htmlFor='business-commerce'>Commerce</label>
                         <Image
+                            id='business-commerce'
                             src={Production}
-                            alt="Commerce option"
+                            alt="Delivery option"
                             width={200}
                         />
-                        <label>
-                            <input name={`Radio`} checked={businessService === 'commerce'} type={"radio"} />
-                        </label>
+                        <input name={`Radio`} checked={businessService === 'commerce'} type={"radio"} />
                     </S.CommerceOption>
                 </S.BusinessOption>
             </S.QuestionWrapper>}
 
-            {step === 2 && businessService === 'commerce' && <S.QuestionWrapper>
-                <S.InputContainer>
-                    {`Physical Business? `}
-                    <input checked={isPhysical} type={"checkbox"} onChange={() => setIsPhysical(!isPhysical)} />
-                </S.InputContainer>
+            {step === 3 && businessService === 'commerce' && <S.QuestionWrapper>
+                <S.InputLabel htmlFor='physical'>{`Physical Business? `}</S.InputLabel>
+                <input id='physical' checked={isPhysical} type={"checkbox"} onChange={() => setIsPhysical(!isPhysical)} />
 
-                <S.InputContainer>
-                    <S.LabelWrapper isPhysical={isPhysical}>
-                        {`Country`}
-                    </S.LabelWrapper>
-                    <S.InputElement disabled={!isPhysical} placeholder={`Malta`} value={businessCountry} type={"text"} onChange={handleBusinessCountry} />
-                </S.InputContainer>
+                <S.InputLabel htmlFor='country'>{`Country`}</S.InputLabel>
+                <S.InputElement id='country' disabled={!isPhysical} placeholder={`Malta`} value={businessCountry} type={"text"} onChange={handleBusinessCountry} />
+
+                <S.InputLabel htmlFor='state'>{`State`}</S.InputLabel>
+                <S.InputElement id='state' disabled={!isPhysical} placeholder={`San Ġiljan`} value={businessState} type={"text"} onChange={handleBusinessState} />
+
+                <S.InputLabel htmlFor='city'>{`City`}</S.InputLabel>
+                <S.InputElement id='city' disabled={!isPhysical} placeholder={`San Ġiljan`} value={businessCity} type={"text"} onChange={handleBusinessCity} />
                 
-                <S.InputContainer>
-                    <S.LabelWrapper isPhysical={isPhysical}>
-                        {`State`}
-                    </S.LabelWrapper>
-                    <S.InputElement disabled={!isPhysical} placeholder={`San Ġiljan`} value={businessState} type={"text"} onChange={handleBusinessState} />
-                </S.InputContainer>
-
-                <S.InputContainer>
-                    <S.LabelWrapper isPhysical={isPhysical}>
-                        {`City`}
-                    </S.LabelWrapper>
-                    <S.InputElement disabled={!isPhysical} placeholder={`San Ġiljan`} value={businessCity} type={"text"} onChange={handleBusinessCity} />
-                </S.InputContainer>
+                <S.InputLabel htmlFor='neighbourhood'>{`Neighbourhood`}</S.InputLabel>
+                <S.InputElement id='neighbourhood' disabled={!isPhysical} placeholder={`San Ġiljan`} value={businessNeighbourhood} type={"text"} onChange={handleBusinessNeighbourhood} />
                 
-                <S.InputContainer>
-                    <S.LabelWrapper isPhysical={isPhysical}>
-                        {`Neighbourhood`}
-                    </S.LabelWrapper>
-                    <S.InputElement disabled={!isPhysical} placeholder={`San Ġiljan`} value={businessNeighbourhood} type={"text"} onChange={handleBusinessNeighbourhood} />
-                </S.InputContainer>
-                
-                <S.InputContainer>
-                    <S.LabelWrapper isPhysical={isPhysical}>
-                        {`Street`}
-                    </S.LabelWrapper>
-                    <S.InputElement disabled={!isPhysical} placeholder={`Triq Ross`} value={businessStreet} type={"text"} onChange={handleBusinessStreet} />
-                </S.InputContainer>
+                <S.InputLabel htmlFor='street'>{`Street`}</S.InputLabel>
+                <S.InputElement id='street' disabled={!isPhysical} placeholder={`Triq Ross`} value={businessStreet} type={"text"} onChange={handleBusinessStreet} />
 
-                <S.InputContainer>
-                    <S.LabelWrapper isPhysical={isPhysical}>
-                        {`ZIP code`}
-                    </S.LabelWrapper>
-                    <S.InputElement disabled={!isPhysical} placeholder={`STJ 3243`} value={businessZipCode} type={"text"} onChange={handleBusinessZipCode} />
-                </S.InputContainer>
+                <S.InputLabel htmlFor='zip'>{`ZIP code`}</S.InputLabel>
+                <S.InputElement id='zip' disabled={!isPhysical} placeholder={`STJ 3243`} value={businessZipCode} type={"text"} onChange={handleBusinessZipCode} />
 
-                <S.InputContainer>
-                    <S.LabelWrapper isPhysical={isPhysical}>
-                        {`Number`}
-                    </S.LabelWrapper>
-                    <S.InputElement disabled={!isPhysical} placeholder={`0`} value={businessNumber} type={"text"} onChange={handleBusinessNumber} />
-                </S.InputContainer>
+                <S.InputLabel htmlFor='number'>{`Number`}</S.InputLabel>
+                <S.InputElement id='number' disabled={!isPhysical} placeholder={`0`} value={businessNumber} type={"text"} onChange={handleBusinessNumber} />
             </S.QuestionWrapper>}
 
-            {step === 2 && businessService === 'delivery' && <S.QuestionWrapper>
+            {step === 3 && businessService === 'delivery' && <S.QuestionWrapper>
                 
-                <S.InputContainer>
+                <S.InputLabel>
                     <S.LabelWrapper isPhysical={true}>
                         {`Country`}
                     </S.LabelWrapper>
                     <S.InputElement placeholder={`Malta`} value={businessCountry} type={"text"} onChange={handleBusinessCountry} />
-                </S.InputContainer>
+                </S.InputLabel>
                 
-                <S.InputContainer>
+                <S.InputLabel>
                     <S.LabelWrapper isPhysical={true}>
                         {`State`}
                     </S.LabelWrapper>
                     <S.InputElement placeholder={`San Ġiljan`} value={businessState} type={"text"} onChange={handleBusinessState} />
-                </S.InputContainer>
+                </S.InputLabel>
 
-                <S.InputContainer>
+                <S.InputLabel>
                     <S.LabelWrapper isPhysical={true}>
                         {`City`}
                     </S.LabelWrapper>
                     <S.InputElement placeholder={`San Ġiljan`} value={businessCity} type={"text"} onChange={handleBusinessCity} />
-                </S.InputContainer>
+                </S.InputLabel>
                 
-                <S.InputContainer>
+                <S.InputLabel>
                     <S.LabelWrapper isPhysical={true}>
                         {`Neighbourhood`}
                     </S.LabelWrapper>
                     <S.InputElement placeholder={`San Ġiljan`} value={businessNeighbourhood} type={"text"} onChange={handleBusinessNeighbourhood} />
-                </S.InputContainer>
+                </S.InputLabel>
                 
-                <S.InputContainer>
+                <S.InputLabel>
                     <S.LabelWrapper isPhysical={true}>
                         {`Street`}
                     </S.LabelWrapper>
                     <S.InputElement placeholder={`Triq Ross`} value={businessStreet} type={"text"} onChange={handleBusinessStreet} />
-                </S.InputContainer>
+                </S.InputLabel>
 
-                <S.InputContainer>
+                <S.InputLabel>
                     <S.LabelWrapper isPhysical={true}>
                         {`ZIP code`}
                     </S.LabelWrapper>
                     <S.InputElement placeholder={`STJ 3243`} value={businessZipCode} type={"text"} onChange={handleBusinessZipCode} />
-                </S.InputContainer>
+                </S.InputLabel>
 
-                <S.InputContainer>
+                <S.InputLabel>
                     <S.LabelWrapper isPhysical={true}>
                         {`Number`}
                     </S.LabelWrapper>
                     <S.InputElement placeholder={`0`} value={businessNumber} type={"text"} onChange={handleBusinessNumber} />
-                </S.InputContainer>
+                </S.InputLabel>
                 
             </S.QuestionWrapper>}
 
-            {step === 2.5 && businessService === 'delivery' && <S.QuestionWrapper>
-                <S.InputContainer>
+            {step === 4 && businessService === 'delivery' && <S.QuestionWrapper>
+                <S.InputLabel>
                     {`Action area (Meters)`}
                     <S.InputElement type={"number"} onChange={handleActionArea} value={actionArea} />
-                </S.InputContainer>
+                </S.InputLabel>
 
                 <S.DeliveryAreaWrapper>
                 </S.DeliveryAreaWrapper>
 
             </S.QuestionWrapper>}
 
-            {step === 3 && <S.QuestionWrapper>
+            {step === 4 && businessService === 'commerce' && <S.QuestionWrapper>
 
                 <S.NegociationWrapper>
                     <S.DescriptionWrapper>
                         <S.TopWrapper>
                             <S.ImageWrapper>
-                                {businessService === 'commerce' && <Image
-                                    src={Production}
-                                    alt="Commerce option"
+                                {businessImage && <Image
+                                    src={businessImage}
+                                    alt="Business Logo"
                                     width={100}
-                                />}
-                                {businessService === 'delivery' && <Image
-                                    src={Delivery}
-                                    alt="Commerce option"
-                                    width={100}
+                                    height={100}
+                                    style={{objectFit: "contain", background: "#fff"}}
                                 />}
                             </S.ImageWrapper>
                             <S.InfoWrapper>
@@ -255,12 +270,12 @@ export default function Questions
                     </S.DescriptionWrapper>
                     <S.ActionWrapper>
                         <S.PriceWrapper>
-                            {`TAD: ${0.0070000000000}`}
+                            {`TAD: ${amount}`}
                         </S.PriceWrapper>
 
-                        <S.InputContainer>
+                        <S.InputLabel>
                             <S.InputElement placeholder={`Private Key (secp256k1)`} value={privateKey} type={"text"} onChange={handlePrivateKey} />
-                        </S.InputContainer>
+                        </S.InputLabel>
                     </S.ActionWrapper>
 
                 </S.NegociationWrapper>

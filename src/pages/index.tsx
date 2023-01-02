@@ -10,6 +10,7 @@ import TopNotification from '../components/TopNotifications'
 import ServicePreview from '../components/ServicePreview'
 import NewContractForm from '../components/NewContractForm'
 import NewBusiness from '../components/NewContractForm/NewBusiness'
+import { SHA256 } from 'crypto-js'
 
 
 export type HomeTypes = {
@@ -17,7 +18,7 @@ export type HomeTypes = {
     isChromium?: boolean;
 }
 
-export default function Home() {
+export default function Home({}) {
     // const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
     
     const [ navigatorName, setNavigatorName ] = useState<string>('')
@@ -27,13 +28,14 @@ export default function Home() {
     const [ personality, setPersonality ] = useState<string>('commercial')
     
     const [ isLoading, setIsLoading ] = useState<boolean>(true)
-
+    
     const [ isTopOpen, setIsTopOpen ] = useState<boolean>(false)
     const [ isDisabledTypeBtn, setIsDisabledTypeBtn ] = useState<boolean>(true)
-    const [ contractList, setContractList ] = useState<Array<any>>([])
     
-    const [ contractGroup, setContractGroup ] = useState<any>({name: "[Group]"})
-    const [ contractType, setContractType ] = useState<any>({name: "[Type]"})
+    const [ protocol, setProtocol ] = useState<string>('TAD-01')
+
+    const [ contractGroup, setContractGroup ] = useState<any>({name: protocol==='TAD-01'?"Commercial":"[Group]"})
+    const [ contractType, setContractType ] = useState<any>({name: protocol==='TAD-01'?"Business":"[Type]"})
 
     const [ showGroupOptions, setShowGroupOptions ] = useState<boolean>(false)
     const [ showTypeOptions, setShowTypeOptions ] = useState<boolean>(false)
@@ -113,6 +115,7 @@ export default function Home() {
 
 
     const newFormParam = {
+        protocol,
         setIsLoading,
         isChromium,
         setShowGroupOptions,
@@ -151,7 +154,8 @@ export default function Home() {
             
             <S.MainWrapper>
 
-            {personality==="commercial" && <>
+            {protocol==="TAD-00" && <>{"Test Mode"}</>}
+            {protocol==="TAD-01" && <>
                 <S.TopContainer isTopOpen={isTopOpen} >
                     <TopNotification notifictions={notifictions} toggleTop={toggleTop} isChromium={isChromium} isTopOpen={isTopOpen} />
                 </S.TopContainer>
@@ -203,6 +207,13 @@ export default function Home() {
                     <NewContractForm {...newFormParam} />
                 </S.NewContractContainer>}
             </>}
+            {protocol==="TAD-02" && <>{"You cannot use the protocol 'TAD-02'"}</>}
+            {protocol==="TAD-03" && <>{"You cannot use the protocol 'TAD-03'"}</>}
+
+            {protocol==="TAD-10" && <>{"You cannot use the protocol 'TAD-10'"}</>}
+            {protocol==="TAD-11" && <>{"You cannot use the protocol 'TAD-11'"}</>}
+            {protocol==="TAD-12" && <>{"You cannot use the protocol 'TAD-12'"}</>}
+            {protocol==="TAD-13" && <>{"You cannot use the protocol 'TAD-13'"}</>}
 
             </S.MainWrapper>
 
