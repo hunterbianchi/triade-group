@@ -11,6 +11,7 @@ export type ContractTypes = {
 
 export default function NewContractForm
 ({
+    baseUrl,
     setIsLoading,
     isChromium,
     setShowGroupOptions,
@@ -119,6 +120,7 @@ export default function NewContractForm
     }
 
     const newBusinessParam = {
+        baseUrl,
         businessImage,
         setBusinessImage,
         setIsLoading,

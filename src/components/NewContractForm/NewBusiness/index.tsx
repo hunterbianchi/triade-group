@@ -9,7 +9,7 @@ import { objectToOpCode, opCodeToObject } from '../../../utils/opCode'
 
 export default function NewBusiness
 ({
-
+    baseUrl,
     businessImage,
     setBusinessImage,
     setIsLoading,
@@ -165,13 +165,14 @@ export default function NewBusiness
                     businessNumber
                 }
 
-                token.data.addressHash = SHA256(`${businessCountry}${businessState}${businessCity}${businessNeighbourhood}${businessStreet}${businessZipCode}${businessNumber}`).toString()
             }
             
             token.data.dataHash = SHA256(`${token.data.businessRating}${token.data.businessWallet}${token.data.businessName}${token.data.businessImage}${token.data.businessService}${token.data.businessProducts?JSON.stringify(token.data.businessProducts):null}${isPhysical?token.data.addressHash:null}`).toString()
             
             token.header.hash = SHA256(`${token.header.timestamp}${token.header.owner}${token.header.toAddress}${token.header.amount}${token.data.dataHash}`).toString()
-                // d7e0a0eb8980967dddd63988223315f22222722ee45f212991b1492b039ec713
+            // d7e0a0eb8980967dddd63988223315f22222722ee45f212991b1492b039ec713
+
+            console.log(token)
 
             try {
 
@@ -190,7 +191,7 @@ export default function NewBusiness
                 alert(`\n\nTHIS BUSINESS KEY WILL NOT BE VISIBLE AGAIN!!!\n\nWrite down to a paper and keep it safe\n\n${businessPair.privateKey}`)
 
                 try {
-                    await fetch(`https://triade-api.vercel.app/api/chain`, {
+                    await fetch(`${baseUrl}/chain`, {
                         method: 'POST',
                         headers: {
                             'Content-Type':'application/json'
@@ -201,7 +202,8 @@ export default function NewBusiness
                         })
                     }).then(res=>res.json()).then(res=>{
                         
-                        alert(JSON.stringify(res.type))
+                        console.log(JSON.stringify(res))
+                        alert(JSON.stringify(res))
                     })
                     
                 } catch (error) {

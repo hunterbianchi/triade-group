@@ -12,6 +12,7 @@ import NewContractForm from '../components/NewContractForm'
 import NewBusiness from '../components/NewContractForm/NewBusiness'
 import { SHA256 } from 'crypto-js'
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
 export type HomeTypes = {
     isTopOpen?: boolean;
@@ -115,6 +116,7 @@ export default function Home({}) {
 
 
     const newFormParam = {
+        baseUrl,
         protocol,
         setIsLoading,
         isChromium,
