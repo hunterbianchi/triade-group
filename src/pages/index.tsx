@@ -69,12 +69,8 @@ export default function Home({}) {
         name: "jh"
     }])
 
-    const [ serviceList, setServiceList ] = useState<Array<any>>([{
-        type: 'triade-commercial',
-        image: '',
-        name: 'TRÍADE Registry',
-        rating: '173Bi/173Bi',
-    }])
+    const [ serviceList, setServiceList ] = useState<Array<any>>([])
+    const [ myBusinessList, setMyBusinessList ] = useState<Array<any>>([])
 
     function toggleTop (e:any) {
         e.preventDefault()
@@ -116,6 +112,8 @@ export default function Home({}) {
 
 
     const newFormParam = {
+        myBusinessList,
+        setMyBusinessList,
         baseUrl,
         protocol,
         setIsLoading,

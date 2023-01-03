@@ -16,6 +16,9 @@ export default function App({ Component, pageProps }: AppProps) {
   const [ logoOpacity, setLogoOpacity ] = useState(0.25)
 
   useEffect(()=>{
+    window.addEventListener("offline", ()=>{
+      alert("Your internet connection has dropped out!")
+    })
     setTimeout(()=>{
       setIsLoaded(true)
     }, 5000)
