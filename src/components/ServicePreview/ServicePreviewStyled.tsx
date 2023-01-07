@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ServicePreviewTypes } from ".";
 import { HomeTypes } from "../../pages";
 
 export const Wrapper = styled.div<HomeTypes>`
@@ -7,6 +8,7 @@ export const Wrapper = styled.div<HomeTypes>`
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
     padding: 0px 8px;
     background: ${({isChromium})=>isChromium?`#fff1`:`#000`};
     backdrop-filter: blur(6px);
@@ -22,6 +24,17 @@ export const PlanetVisualWrapper = styled.div`
     justify-content: center;
     border: 1px solid #fff;
     border-radius: 50%;
+    overflow: hidden;
+`
+export const Status = styled.div<ServicePreviewTypes>`
+    width: 10px;
+    height: 10px;
+    display: flex;
+    position: absolute;
+    top: 4px;
+    left: 50px;
+    background: ${({status})=>status==="mined"?"#8f0": "#f80"};
+    border-radius: 50%;
 `
 
 export const PlanePreview = styled.div`
@@ -35,8 +48,12 @@ export const PlanePreview = styled.div`
 
 export const PlanetNameWrapper2 = styled.div`
     width: 100%;
-    height: 33.3%;
+    min-height: 33.3%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    font-size: 0.7em;
+    text-align: center;
+    word-break: break-all;
+    overflow: hidden;
 `

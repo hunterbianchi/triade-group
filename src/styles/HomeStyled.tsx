@@ -170,6 +170,19 @@ export const NewContractContainer = styled.div<HomeTypes>`
   z-index: 2;
 `
 
+export const MyBusinessContainer = styled.div<HomeTypes>`
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: flex-start;
+  position: absolute;
+  top: 0;
+  background: #0009;
+  z-index: 2;
+`
+
 export const LoadingWrapper = styled.div`
   width: 100%;
   height: 100%;

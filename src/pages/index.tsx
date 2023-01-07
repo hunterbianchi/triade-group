@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import * as I from 'react-icons/fa'
+import * as F from 'react-icons/fa'
 import * as S from '../styles/HomeStyled'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
@@ -11,6 +11,7 @@ import ServicePreview from '../components/ServicePreview'
 import NewContractForm from '../components/NewContractForm'
 import NewBusiness from '../components/NewContractForm/NewBusiness'
 import { SHA256 } from 'crypto-js'
+import MyBusinessBadger from '../components/MyBusinessBadger'
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -25,6 +26,9 @@ export default function Home({}) {
     const [ navigatorName, setNavigatorName ] = useState<string>('')
 
     const [ isChromium, setIsChromium ] = useState<boolean>(navigatorName==="Chromium")
+
+
+    const [ privateKey, setPrivateKey ] = useState<string>('')
     
     const [ personality, setPersonality ] = useState<string>('commercial')
     
@@ -41,6 +45,22 @@ export default function Home({}) {
     const [ showGroupOptions, setShowGroupOptions ] = useState<boolean>(false)
     const [ showTypeOptions, setShowTypeOptions ] = useState<boolean>(false)
     const [ showNewContractForm, setShowNewContractForm ] = useState<boolean>(false)
+    const [ showMyBusiness, setShowMyBusiness ] = useState<boolean>(false)
+    const [ serviceList, setServiceList ] = useState<Array<any>>([])
+    const [ myBusinessList, setMyBusinessList ] = useState<Array<any>>([])
+    const [ selectedBusiness, setSelectedBusiness ] = useState<any>(myBusinessList[myBusinessList.length-1])
+
+    function openBadger(token?: any){
+        if(token){
+            setSelectedBusiness(token)
+            setShowMyBusiness(true)
+        }else{
+            setShowMyBusiness(true)
+        }
+    }
+    function closeBadger(){
+        setShowMyBusiness(false)
+    }
     
     const [ allGroups, setAllGroups ] = useState<Array<any>>([
         {
@@ -69,8 +89,6 @@ export default function Home({}) {
         name: "jh"
     }])
 
-    const [ serviceList, setServiceList ] = useState<Array<any>>([])
-    const [ myBusinessList, setMyBusinessList ] = useState<Array<any>>([])
 
     function toggleTop (e:any) {
         e.preventDefault()
@@ -112,6 +130,9 @@ export default function Home({}) {
 
 
     const newFormParam = {
+        privateKey,
+        setPrivateKey,
+        openBadger,
         myBusinessList,
         setMyBusinessList,
         baseUrl,
@@ -132,7 +153,30 @@ export default function Home({}) {
         closeContractForm,
     }
 
+    const badgerParam = {
+        privateKey,
+        selectedBusiness,
+        closeBadger,
+    }
+
+    const notifictionParams = {
+        openBadger,
+        privateKey,
+        myBusinessList,
+        isTopOpen,
+        toggleTop,
+        notifictions,
+        isChromium,
+    }
+
     useEffect(()=>{
+        window.addEventListener("offline", ()=>{
+            alert("Your internet connection has dropped out!")
+        })
+        window.addEventListener("online", ()=>{
+            alert("Your internet comes back!")
+        })
+
         getBrowser()
         setIsLoading(false)
     },[])
@@ -157,7 +201,7 @@ export default function Home({}) {
             {protocol==="TAD-00" && <>{"Test Mode"}</>}
             {protocol==="TAD-01" && <>
                 <S.TopContainer isTopOpen={isTopOpen} >
-                    <TopNotification notifictions={notifictions} toggleTop={toggleTop} isChromium={isChromium} isTopOpen={isTopOpen} />
+                    <TopNotification {...notifictionParams} toggleTop={toggleTop} isChromium={isChromium} isTopOpen={isTopOpen} />
                 </S.TopContainer>
 
                 <S.CenterWrapper isTopOpen={isTopOpen}>
@@ -174,34 +218,38 @@ export default function Home({}) {
                         <div style={{color: '#fff', display: 'flex'}}>
                             {"5/5 -"}
                             <div style={{color: '#ff0'}}>
-                                <I.FaStar/>
-                                <I.FaStar/>
-                                <I.FaStar/>
-                                <I.FaStar/>
-                                <I.FaStar/>
+                                <F.FaStar/>
+                                <F.FaStar/>
+                                <F.FaStar/>
+                                <F.FaStar/>
+                                <F.FaStar/>
                             </div>
                         </div>
                     </S.MetaverseNameWrapper>
 
                     <S.FloatWrapper>
-                        {serviceList.map((service)=>{
+                        {myBusinessList.map((service)=>{
                             return (
-                                <ServicePreview key={Math.random()} service={service} isChromium={isChromium} />
+                                <ServicePreview privateKey={privateKey} openBadger={openBadger} key={Math.random()} service={service} isChromium={isChromium} />
                             )
                         })}
                     </S.FloatWrapper>
 
                     <S.PagWrapper>
-                        1 / 5k
+                        1 / 5k {`${myBusinessList.length}`}
                     </S.PagWrapper>
 
                 </S.CenterWrapper>
 
                 <S.FooterWrapper isChromium={isChromium} >
-                    {`Footer`}
+                    {myBusinessList.length>0 && <F.FaBuilding onClick={e=>openBadger()}/>}
                 </S.FooterWrapper>
 
-                <S.AddContractBtn onClick={openContractForm} ><I.FaPlus/></S.AddContractBtn>
+                <S.AddContractBtn onClick={openContractForm} ><F.FaPlus/></S.AddContractBtn>
+
+                {showMyBusiness && <S.MyBusinessContainer>
+                    <MyBusinessBadger {...badgerParam} />
+                </S.MyBusinessContainer>}
 
                 {showNewContractForm && <S.NewContractContainer>
                     <NewContractForm {...newFormParam} />

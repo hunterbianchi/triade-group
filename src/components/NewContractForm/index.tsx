@@ -8,9 +8,11 @@ export type ContractTypes = {
     businessService: string;
 }
 
-
 export default function NewContractForm
 ({
+    privateKey,
+    setPrivateKey,
+    openBadger,
     myBusinessList,
     setMyBusinessList,
     baseUrl,
@@ -30,10 +32,8 @@ export default function NewContractForm
     closeContractForm
 }:any){
 
-    const [ privateKey, setPrivateKey ] = useState<string>('')
-    const [ fromAddress, setFromAddress ] = useState<string>('')
     const [ toAddress, setToAddress ] = useState<string>('')
-    const [ amount, setAmount ] = useState<number>(0)
+    const [ amount, setAmount ] = useState<number>(0.000)
     
     const [ businessName, setBusinessName ] = useState<string>('')
     const [ businessImage, setBusinessImage ] = useState<any>('')
@@ -45,7 +45,6 @@ export default function NewContractForm
     const [ businessStreet, setBusinessStreet ] = useState<string>('')
     const [ businessZipCode, setBusinessZipCode ] = useState<string>("")
     const [ businessNumber, setBusinessNumber ] = useState<string>("")
-
     const [ signature, setSignature ] = useState<string>('')
     const [ fingerprint, setFingerprint ] = useState<string>('')
     
@@ -122,6 +121,7 @@ export default function NewContractForm
     }
 
     const newBusinessParam = {
+        openBadger,
         myBusinessList,
         setMyBusinessList,
         baseUrl,

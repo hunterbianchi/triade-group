@@ -10,7 +10,7 @@ export const Wrapper = styled.div<HomeTypes>`
     align-items:center;
     justify-content: center;
     color: #fff;    
-    background: transparent;
+    background: #0008;
     overflow: hidden;
 `        
     

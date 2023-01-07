@@ -8,6 +8,7 @@ import Questions from './Questions'
 
 export default function NewBusiness
 ({
+    openBadger,
     myBusinessList,
     setMyBusinessList,
     baseUrl,
@@ -137,10 +138,6 @@ export default function NewBusiness
         
         e.preventDefault()
 
-        if(businessName === ""){
-            setBusinessName("Anonymous")
-        }
-
         if(!privateKey){
             alert("\n\tCONTRACT NOT SIGNED!\n\n\tPut you private key to sign this contract.\n\n")
             setIsLoading(false)
@@ -152,6 +149,7 @@ export default function NewBusiness
 
             const token: any = {
                 header:{
+                    status: "pending",
                     timestamp:new Date().getTime(),
                     owner: getPublicKey(privateKey),
                     toAddress: "00000000",
@@ -160,9 +158,9 @@ export default function NewBusiness
                 data:{
                     businessRating:5,
                     businessWallet: businessPair.publicKey,
-                    businessName,
+                    businessName: businessName === ""?"Anonymous":businessName,
                     businessService,
-                    businessProducts: businessService==="Commerce"?[]:null,
+                    businessProducts: businessService==="commerce"?[]:null,
                     businessImage,
                 }
             }
@@ -184,16 +182,16 @@ export default function NewBusiness
             token.header.hash = SHA256(`${token.header.timestamp}${token.header.owner}${token.header.toAddress}${token.header.amount}${token.data.dataHash}`).toString()
             // d7e0a0eb8980967dddd63988223315f22222722ee45f212991b1492b039ec713
 
-            console.log(`Not signed yet \n\n${token}`)
+            console.log(`Not signed yet \n\n${JSON.stringify(token)}`)
 
             try {
 
                 token.header.signature = signHash(token.header.hash, privateKey)
 
-                setSignature(token.header.signature)
-
                 console.log(`Signed!\n\n${token}`)
                 
+                setSignature(token.header.signature)
+                                
             } catch (error) {
 
                 alert(`Could not Sign this Contract`)
@@ -221,8 +219,15 @@ export default function NewBusiness
                         
                         console.log(JSON.stringify(res))
                         alert(JSON.stringify(res))
+                        
 
+                        if(res.type==="error"){
+                            alert(res.error.message)
+                        }
                         if(res.type==="new-business"){
+
+                            alert(`Pending List:\n\n${JSON.stringify(res.data)}`)
+
                             const { data } = res
                             if(verifySignature(data.header.owner, data.header.hash, data.header.signature)){
                                 if(data.header.owner === getPublicKey(privateKey)){
@@ -232,6 +237,8 @@ export default function NewBusiness
                                     businessList.push(data)
 
                                     setMyBusinessList(businessList)
+                                    
+                                    openBadger(data)
                                 }
                             }
                         }
