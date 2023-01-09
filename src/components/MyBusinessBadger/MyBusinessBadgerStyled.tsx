@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -93,7 +93,7 @@ export const BusinessWrapper = styled.div`
 
 export const SpinContainer = styled.div`
     min-width: 100%;
-    min-height: 300px;
+    min-height: calc(96vh - 116px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -104,6 +104,21 @@ export const SpinContainer = styled.div`
 export const CloseBtn = styled.button`
     width: 30px;
     height: 30px;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #654;
+    color: #fff;
+    border-radius: 50%;
+    border: none;
+`
+
+export const ProductNav = styled.div`
+    width: 100%;
+    height: 100%;
     position: absolute;
     top: 8px;
     right: 8px;

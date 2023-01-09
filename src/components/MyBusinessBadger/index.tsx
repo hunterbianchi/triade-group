@@ -8,6 +8,7 @@ import logo from "../../../public/triade.png"
 import { getPublicKey } from "../../utils/manageKeys"
 
 export default function MyBusinessBadger({privateKey, selectedBusiness, closeBadger}: any){
+    alert(JSON.stringify(selectedBusiness))
     const [ products, setProducts ] = useState<Array<any>>(selectedBusiness.data.businessProducts)
 
 /*  {
@@ -106,6 +107,7 @@ export default function MyBusinessBadger({privateKey, selectedBusiness, closeBad
             
             <S.CloseBtn onClick={closeBadger}>X</S.CloseBtn>
             {selectedBusiness.header.owner===getPublicKey(privateKey) && <S.AddProductBtn onClick={addProduct}>+</S.AddProductBtn>}
+            <S.CloseBtn onClick={closeBadger}>X</S.CloseBtn>
         </S.Wrapper>
     )
 }

@@ -33,6 +33,7 @@ export const Status = styled.div<ServicePreviewTypes>`
     position: absolute;
     top: 4px;
     left: 50px;
+    color: #f00;
     background: ${({status})=>status==="mined"?"#8f0": "#f80"};
     border-radius: 50%;
 `

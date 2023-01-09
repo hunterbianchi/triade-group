@@ -108,6 +108,7 @@ class BlockChain {
         this.chain.push(block);
         this.pendingTransactions = [new Transaction(null, miningRewardAddress, this.miningReward)];
     }
+    
     getBalanceOfAddress(address) {
         let balance = 0;
         for (const block of this.chain) {

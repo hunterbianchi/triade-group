@@ -160,7 +160,8 @@ export default function NewBusiness
                     businessWallet: businessPair.publicKey,
                     businessName: businessName === ""?"Anonymous":businessName,
                     businessService,
-                    businessProducts: businessService==="commerce"?[]:null,
+                    // businessProducts: businessService==="commerce"?[]:null,
+                    businessProducts: ['TRÍADE', 'Business',  'Products'],
                     businessImage,
                 }
             }
@@ -226,10 +227,14 @@ export default function NewBusiness
                         }
                         if(res.type==="new-business"){
 
-                            alert(`Pending List:\n\n${JSON.stringify(res.data)}`)
+                            
+                            const data = res.data.payload
+                            
+                            
+                            alert(verifySignature(data.header.owner, data.header.hash, data.header.signature))
 
-                            const { data } = res
                             if(verifySignature(data.header.owner, data.header.hash, data.header.signature)){
+                                alert(JSON.stringify(data))
                                 if(data.header.owner === getPublicKey(privateKey)){
 
                                     const businessList = myBusinessList

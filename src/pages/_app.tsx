@@ -35,7 +35,9 @@ export default function App({ Component, pageProps }: AppProps) {
       
       
     </Head>
+    
     <S.GlobalStyles />
+    
     {isLoaded?<Component {...pageProps} />
     :
     <S.Float>

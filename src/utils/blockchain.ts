@@ -44,23 +44,47 @@ export class Block {
 
 export class BlockChain {
 
-    chain: Array<any>;
-    target: number;
-    pendingContracts: Array<any>;
-    fee: number;
-    nodes: Array<any>;
+    chain: Array<any>
+    target: number
+    pendingContracts: Array<any>
+    fee: number
+    nodes: Array<any>
 
     constructor(
     ) {
-        this.chain = [this.createGenesisBlock()];
-        this.target = this.getDifficulty();
-        this.pendingContracts = [];
-        this.fee = 50;
-        this.nodes = ["https://triade-api.vercel.app/api/chain"];
+        this.chain = [this.createGenesisBlock()]
+        this.target = this.getDifficulty()
+        this.pendingContracts = []
+        this.fee = 50
+        this.nodes = ["https://triade-api.vercel.app/api/chain"]
+    }
+
+    calculateTargetAndDifficulty(previousHash: string): number {
+        // Set the maximum possible value for the target as in the Bitcoin model
+        const maxTarget = '00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+        
+        // Set the initial target to the maximum possible value
+        let target = 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+        
+        // Set the initial difficulty to 1
+        let difficulty = 1
+        
+        // Calculate the target and difficulty until the previous hash is less than the target
+        // and the target is less than or equal to the maximum possible value
+        while (previousHash >= target || target > maxTarget) {
+          // Increase the difficulty by 1
+          difficulty++
+          
+          // Calculate the new target by dividing the initial target by the difficulty
+          target = (parseInt(target) / difficulty).toString(16)
+        }
+        
+        // Return the calculated target and difficulty
+        return difficulty
     }
 
     getDifficulty(): number {
-        let currentDifficulty: number = 2;
+        let currentDifficulty: number = 1
 
         /* if (this.chain.length > 2015) {
             const latest_block = this.getLatestBlock();
@@ -182,23 +206,28 @@ export class Contract {
     fromAddress: string | null;
     toAddress: string;
     amount: number;
-    opCode: string | null;
+    payload: any | null;
     signature: string;
 
 
-    constructor(fromAddress: string, toAddress: string, amount: number, opCode: string = '', signature: string) {
+    constructor(fromAddress: string, toAddress: string, amount: number, payload: any = null, signature: string) {
 
         this.fromAddress = fromAddress;
         this.toAddress = toAddress;
         this.amount = amount;
-        this.opCode = opCode;
+        this.payload = payload;
         this.signature = signature;
 
     }
 
     calculateHash(): string {
-        if (this.opCode) {
-            return SHA256(this.opCode).toString()
+        if(this.payload){
+            const newDataHash = SHA256(`${this.payload.data.businessRating}${this.payload.data.businessWallet}${this.payload.data.businessName}${this.payload.data.businessImage}${this.payload.data.businessService}${this.payload.data.businessProducts?JSON.stringify(this.payload.data.businessProducts):null}${this.payload.data.businessAddress?this.payload.data.addressHash:null}`).toString()
+            
+            if(newDataHash === this.payload.data.dataHash){
+                return SHA256(`${this.payload.header.timestamp}${this.payload.header.owner}${this.payload.header.toAddress}${this.payload.header.amount}${newDataHash}`).toString()
+            }
+            
         }
         return SHA256(this.fromAddress + this.toAddress + this.amount).toString()
     }
